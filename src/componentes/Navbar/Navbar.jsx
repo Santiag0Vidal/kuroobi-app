@@ -3,7 +3,7 @@ import * as C from "../index";
 
 function Navbar() {
   return (
-    <nav className="bg-[#fbf4f3] text-white fixed top-0 w-full shadow z-50">
+    <nav className="bg-[var(--c-ink)] text-white fixed top-0 w-full shadow z-50">
       <div className="container mx-auto flex flex-col items-center justify-center px-4 py-4">
      
         <div className="mb-4">
@@ -14,7 +14,7 @@ function Navbar() {
           <li>
             <a
               href="#tratamientos"
-              className="text-[#343432] hover:underline hover:text-[#f9a826] transition-colors"
+              className="text-[var(--c-primary)] hover:underline hover:text-[#f9a826] transition-colors"
             >
               Tratamientos
             </a>
@@ -22,7 +22,7 @@ function Navbar() {
            <li>
             <a
               href="#preguntas"
-              className="text-[#343432] hover:underline hover:text-[#f9a826] transition-colors"
+              className="text-[var(--c-primary)] hover:no-underline hover:text-[#f9a826] transition-colors"
             >
               Preguntas
             </a>
@@ -30,7 +30,7 @@ function Navbar() {
           <li>
             <a
               href="#nosotros"
-              className="text-[#343432] hover:underline hover:text-[#f9a826] transition-colors"
+              className="text-[var(--c-primary)] hover:no-underline hover:text-[#f9a826] transition-colors"
             >
               Nosotros
             </a>
@@ -39,7 +39,7 @@ function Navbar() {
           <li>
             <a
               href="#contacto"
-              className="text-[#343432] hover:underline hover:text-[#f9a826] transition-colors"
+              className="text-[var(--c-primary)] hover:no-underline hover:text-[#f9a826] transition-colors"
             >
               Contacto
             </a>
@@ -47,7 +47,7 @@ function Navbar() {
           <li>
             <a
               href="#kuroobi"
-              className="text-[#343432] hover:underline hover:text-[#f9a826] transition-colors"
+              className="text-[var(--c-primary)] hover:no-underline hover:text-[#f9a826] transition-colors"
             >
               Novedades
             </a>
