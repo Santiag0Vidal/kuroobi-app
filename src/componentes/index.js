@@ -6,6 +6,7 @@ export {default as Contacto} from './Contacto/index.jsx';
 export {default as Tratamientos} from './Tratamientos/index.jsx';
 export {default as PreFrecuentes} from './Preguntas/index.jsx';
 export {default as Kuroobi} from './Kuroobi/index.jsx';
+export {default as Membresia} from './Membresia/index.jsx';
 
 //NARVAR
 export {default as Navbar} from './Navbar/Navbar.jsx';

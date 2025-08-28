@@ -1,11 +1,11 @@
 import img from "../../assets/kuroo-logo.png";
 import { motion } from "framer-motion";
 
-export default function Inicio() {
+export default function Kuroobi() {
   return (
     <section
       id="kuroobi"
-      className="min-h-screen flex flex-col items-center justify-center text-center bg-gradient-to-b from-[#000000] to-white px-4"
+      className="min-h-screen flex flex-col items-center justify-center text-center bg-gradient-to-b from-[var(--c-ink)]  to-white px-4"
     >
 
       <motion.img

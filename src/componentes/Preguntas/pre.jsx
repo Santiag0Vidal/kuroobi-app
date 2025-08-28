@@ -18,7 +18,7 @@ export default function FAQ() {
         {faqs.map((faq, index) => (
           <div
             key={index}
-            className="border border-gray-200 rounded-lg overflow-hidden shadow-sm"
+            className="border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-[0_10px_40px_-10px_rgba(150,31,28,0.6)] transition"
           >
             <button
               onClick={() => toggle(index)}
