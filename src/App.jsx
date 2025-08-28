@@ -11,6 +11,7 @@ function App() {
       <main className="pt-20">
         <C.Navbar />
         <C.Inicio />
+        <C.WhappBoot/>
        <C.Membresia/>
         <C.Tratamientos />
         <C.PreFrecuentes/>

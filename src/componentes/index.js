@@ -17,6 +17,9 @@ export {default as Fotter} from './Footer/index.jsx'
 //Titulo
 export {default as TituloSeccion} from './TituloSeccion/index.jsx';
 
+//WhappBoot
+export {default as WhappBoot} from './WhappBoot/index.jsx';
+
 //Cards
 
 export {default as CardProducto} from './Productos/Cards/index.jsx';
