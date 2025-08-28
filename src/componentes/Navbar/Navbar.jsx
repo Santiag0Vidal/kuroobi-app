@@ -1,69 +1,31 @@
-//import { Link } from "react-router-dom";
+import navLinks from "./navLinks.js";
 import * as C from "../index";
 
 function Navbar() {
   return (
-    <nav className="bg-[var(--c-ink)] text-white fixed top-0 w-full shadow z-50">
+    <nav className="bg-[var(--c-ink)] text-white fixed top-0 w-full shadow-lg z-50">
       <div className="container mx-auto flex flex-col items-center justify-center px-4 py-4">
-     
+        
+        {/* Logo */}
         <div className="mb-4">
-          <C.Logo className="w-32 h-32" />{" "}
+          <C.Logo className="w-28 h-28 transition-transform duration-300 hover:scale-105" />
         </div>
-       
-        <ul className="flex flex-wrap justify-center space-x-6 text-sm sm:text-base font-medium">
-          <li>
-            <a
-              href="#tratamientos"
-              className="text-[var(--c-primary)] hover:underline hover:text-[#f9a826] transition-colors"
-            >
-              Tratamientos
-            </a>
-          </li>
-          <li>
-            <a
-              href="#membresia"
-              className="text-[var(--c-primary)] hover:underline hover:text-[#f9a826] transition-colors"
-            >
-              Membresia
-            </a>
-          </li>
-           <li>
-            <a
-              href="#preguntas"
-              className="text-[var(--c-primary)] hover:no-underline hover:text-[#f9a826] transition-colors"
-            >
-              Preguntas
-            </a>
-          </li>
-          <li>
-            <a
-              href="#nosotros"
-              className="text-[var(--c-primary)] hover:no-underline hover:text-[#f9a826] transition-colors"
-            >
-              Nosotros
-            </a>
-          </li>
 
-          <li>
-            <a
-              href="#contacto"
-              className="text-[var(--c-primary)] hover:no-underline hover:text-[#f9a826] transition-colors"
-            >
-              Contacto
-            </a>
-          </li>
-          <li>
-            <a
-              href="#kuroobi"
-              className="text-[var(--c-primary)] hover:no-underline hover:text-[#f9a826] transition-colors"
-            >
-              Novedades
-            </a>
-          </li>
-          {/*<C.BotonCarrito /> */}  
-          
+        {/* Links dinámicos */}
+        <ul className="flex flex-wrap justify-center gap-6 text-sm sm:text-base font-medium">
+          {navLinks.map((link) => (
+            <li key={link.id}>
+              <a
+                href={`#${link.id}`}
+                className="text-[var(--c-primary)] transition-all duration-300 hover:text-[#f9a826] hover:drop-shadow-lg hover:scale-105"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+          {/* Carrito si lo necesitas */}
+          {/* <C.BotonCarrito /> */}
         </ul>
-       
       </div>
     </nav>
   );

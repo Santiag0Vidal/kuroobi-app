@@ -1,10 +1,18 @@
 import PropTypes from 'prop-types';
+import { motion } from 'framer-motion';
 
 function TituloSeccion({ texto }) {
   return (
-    <h2 className="text-2xl sm:text-3xl font-bold text-[#dec09a] text-center mb-6">
+    <motion.h2
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="text-4xl sm:text-5xl font-extrabold text-[var(--c-primary)] text-center tracking-wide relative mb-12 drop-shadow-lg"
+    >
       {texto}
-    </h2>
+      {/* Línea decorativa debajo */}
+      <span className="block w-28 h-1 bg-[var(--c-brown)] rounded-full mx-auto mt-4 shadow-md" />
+    </motion.h2>
   );
 }
 

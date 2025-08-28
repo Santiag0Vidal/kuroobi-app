@@ -8,12 +8,9 @@ export default function Preguntas() {
 
     >
       <div className="flex flex-col items-center max-w-7xl w-full">
-        <h2 className="text-4xl sm:text-5xl font-extrabold text-[var(--c-primary)] text-center tracking-wide relative">
-          PREGUNTAS FRECUENTES
-           <span className="block w-24 h-1 bg-[var(--c-brown)] rounded-full mx-auto mt-3" />
-        </h2>
+        <C.TituloSeccion texto="PREGUNTAS FRECUENTES"/>
 
-        <div className="flex flex-col md:flex-row items-center w-full max-w-5xl bg-[var(--c-primary)] rounded-2xl shadow-xl mt-3 ">
+        <div className="flex flex-col md:flex-row items-center w-full max-w-5xl rounded-2xl shadow-xl mt-3 ">
          <C.Preguntas/>
         </div>
       </div>

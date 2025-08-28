@@ -7,11 +7,7 @@ export default function Contacto() {
       className="min-h-screen flex items-center justify-center bg-[var(--c-ink)] px-4 py-16"
     >
       <div className="flex flex-col items-center max-w-7xl w-full gap-12">
-        {/* Título */}
-        <h2 className="text-4xl sm:text-5xl font-extrabold text-[var(--c-primary)] text-center tracking-wide relative">
-          CONTACTANOS
-          <span className="block w-24 h-1 bg-[var(--c-brown)] rounded-full mx-auto mt-3" />
-        </h2>
+        <C.TituloSeccion texto='CONTACTANOS'/>
 
         {/* Contenedor principal */}
         <div className="flex flex-col lg:flex-row items-stretch w-full max-w-6xl bg-[var(--c-graylite)]/90 backdrop-blur-sm rounded-3xl shadow-xl border border-[var(--c-graydark)] overflow-hidden gap-8">

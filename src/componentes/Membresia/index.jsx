@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Dumbbell, Clock, Star, BanknoteArrowUp } from "lucide-react"; // iconos más “gym”
 import planes from "./planes";
+import * as C from '../index'
 
 export default function Membresias() {
   return (
@@ -9,10 +10,7 @@ export default function Membresias() {
       className="bg-[var(--c-ink)] min-h-screen flex flex-col items-center py-16 px-6"
     >
       {/* Título */}
-      <h2 className="text-4xl sm:text-5xl font-extrabold text-[var(--c-primary)] text-center tracking-wide relative">
-        MEMBRESÍAS
-        <span className="block w-24 h-1 bg-[var(--c-brown)] rounded-full mx-auto mt-3" />
-      </h2>
+      <C.TituloSeccion texto= 'MEMBRESIAS'/>
 
       {/* Grid de planes */}
       <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl w-full">

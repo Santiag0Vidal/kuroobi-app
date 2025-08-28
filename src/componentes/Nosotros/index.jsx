@@ -1,5 +1,6 @@
 import kines from "./kinesiolos";
 import { motion } from "framer-motion";
+import * as C from '../index'
 
 export default function Nosotros() {
   return (
@@ -8,12 +9,7 @@ export default function Nosotros() {
       className="bg-[var(--c-ink)] min-h-screen flex flex-col items-center py-16 px-6"
     >
       <div className="flex flex-col items-center max-w-7xl w-full gap-12">
-        {/* Título */}
-        <h2 className="text-4xl sm:text-5xl font-extrabold text-[var(--c-primary)] text-center tracking-wide relative">
-          SOBRE NOSOTROS
-          <span className="block w-24 h-1 bg-[var(--c-brown)] rounded-full mx-auto mt-3" />
-        </h2>
-
+        <C.TituloSeccion texto="NUESTRO STAFF"/>
         {/* Descripción */}
         <p className="text-center text-[var(--c-graylite)] max-w-3xl">
           En <strong>KINESIOLOGÍA WM</strong> nos especializamos en kinesiología
