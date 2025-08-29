@@ -12,6 +12,7 @@ function App() {
         <C.Navbar />
         <C.Inicio />
         <C.WhappBoot/>
+        <C.Actividades/>
        <C.Membresia/>
         <C.Tratamientos />
         <C.PreFrecuentes/>
