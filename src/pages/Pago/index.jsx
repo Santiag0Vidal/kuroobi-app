@@ -17,18 +17,21 @@ export default function Pago() {
   const [actividadSeleccionada, setActividadSeleccionada] = useState(null);
   const [aceptaTerminos, setAceptaTerminos] = useState(false);
   const [mostrarModal, setMostrarModal] = useState(false);
+  const [link, setLink] = useState("");
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("cliente"));
     setCliente(data);
-    console.log(data);
-    const planName = data[0].plan;
-    console.log("--", planName);
-    const actividad = data[0].actividad;
-    console.log(actividad);
+    const plan = data[0].plan;
+    const actividad = data[0].actividad;;
     setActividadSeleccionada(actividad);
-    setPlanSeleccionado(planName);
+    console.log(plan);
+    setPlanSeleccionado(plan);
+    setLink(plan.link)
+
   }, []);
+  console.log(planSeleccionado);
+  console.log("Link del plan:", link);
   if (!cliente || !planSeleccionado)
     return <p className="text-center text-white pt-40">Cargando...</p>;
 
