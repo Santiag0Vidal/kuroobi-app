@@ -14,6 +14,7 @@ export {default as Actividades} from './Actividades/index.jsx';
 export {default as Navbar} from './Navbar/Navbar.jsx';
 export {default as Logo} from './Navbar/Logo.jsx';
 export {default as NavbarInterno} from './Navbar/NavbarInterno.jsx';
+export {default as NavComun} from './Navbar/NavComun.jsx';
 //Footer
 export {default as Fotter} from './Footer/index.jsx'
 //Titulo

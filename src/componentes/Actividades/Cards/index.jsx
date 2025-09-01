@@ -4,7 +4,7 @@ import * as C from '../../index';
 
 const CardActividades = ({ titulo, descripcion, imagen }) => {
   const [open, setOpen] = useState(false);
-
+  console.log('des',descripcion)
   return (
     <>
       {/* Card */}
@@ -47,7 +47,7 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
 
             {/* Formulario */}
             <div className="p-6">
-              <C.FormularioCliente onClose={() => setOpen(false)}/>
+              <C.FormularioCliente actividad={descripcion} onClose={() => setOpen(false)} />
             </div>
           </div>
         </div>

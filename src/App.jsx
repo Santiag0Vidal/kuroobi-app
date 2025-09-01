@@ -13,7 +13,7 @@ function App() {
         <C.Inicio />
         <C.WhappBoot/>
         <C.Actividades/>
-       <C.Membresia/>
+       {/*<C.Membresia/>*/}
         <C.Tratamientos />
         <C.PreFrecuentes/>
         <C.Nosotros />

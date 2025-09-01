@@ -1,6 +1,5 @@
 
 import * as C from "./../index";
-import { Link } from "react-router-dom";
 
 export default function Actividades() {
   return (
@@ -18,6 +17,7 @@ export default function Actividades() {
               descripcion="Musculacion"
               imagen="/Actividades/musculacion.jpg"
             />
+            
 
         </div>
         </div>
