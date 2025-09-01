@@ -1,6 +1,7 @@
 
 import './App.css'
 import * as C from './componentes'
+import * as P from './pages'
 
 
 function App() {
@@ -10,16 +11,16 @@ function App() {
 
       <main className="pt-20">
         <C.Navbar />
-        <C.Inicio />
-        <C.WhappBoot/>
-        <C.Actividades/>
-       {/*<C.Membresia/>*/}
-        <C.Tratamientos />
-        <C.PreFrecuentes/>
-        <C.Nosotros />
-        <C.Contacto />
-         <C.Kuroobi/>
-        <C.Fotter/>
+        <P.Inicio />
+        <C.WhappBoot />
+        <P.Actividades />
+       {/*  <P.Membresia /> */}
+        <P.Tratamientos />
+        <P.Preguntas />
+        <P.Nosotros />
+        <P.Contacto />
+        <C.Kuroobi />
+        <C.Fotter />
       </main>
     </div>
   )

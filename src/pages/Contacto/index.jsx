@@ -1,4 +1,4 @@
-import * as C from '../index'
+import * as C from '../../componentes/index'
 
 export default function Contacto() {
   return (

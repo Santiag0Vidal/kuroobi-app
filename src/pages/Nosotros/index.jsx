@@ -1,6 +1,6 @@
 import kines from "./kinesiolos";
 import { motion } from "framer-motion";
-import * as C from '../index'
+import * as C from '../../componentes/index';
 
 export default function Nosotros() {
   return (

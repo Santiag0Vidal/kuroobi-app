@@ -1,4 +1,5 @@
-import * as C from "../index";
+import * as C from "../../componentes/index";
+import IntemPreguntas from './items'
 
 export default function Preguntas() {
   return (
@@ -11,7 +12,7 @@ export default function Preguntas() {
         <C.TituloSeccion texto="PREGUNTAS FRECUENTES"/>
 
         <div className="flex flex-col md:flex-row items-center w-full max-w-5xl rounded-2xl shadow-xl mt-3 ">
-         <C.Preguntas/>
+         <IntemPreguntas/>
         </div>
       </div>
     </section>
