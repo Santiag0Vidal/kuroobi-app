@@ -6,7 +6,8 @@
   { "id": "preguntas", "label": "Preguntas" },
   { "id": "nosotros", "label": "Nosotros" },
   { "id": "contacto", "label": "Contacto" },
-  { "id": "kuroobi", "label": "Novedades" }
+  { "id": "kuroobi", "label": "Novedades" },
+  { "id": "actividades", "label": "Actividades" }
 ];
 
 export default NavLink;

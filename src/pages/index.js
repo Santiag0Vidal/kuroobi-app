@@ -7,3 +7,6 @@ export {default as Peluditos} from './Peluditos/index.jsx';
 
 //Carrito
 export {default as Carrito} from './Carrito/index.jsx';
+
+//Pago
+export {default as Pago} from './Pago/index.jsx';
