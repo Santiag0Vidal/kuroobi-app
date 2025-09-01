@@ -17,6 +17,16 @@ export default function Actividades() {
               descripcion="Musculacion"
               imagen="/Actividades/musculacion.jpg"
             />
+             <C.CardActividades
+              titulo="KARATE"
+              descripcion="Karate"
+              imagen="/Actividades/karate.jpg"
+            />
+             <C.CardActividades
+              titulo="INDOOR BIKE"
+              descripcion="Indoor"
+              imagen="/Actividades/indoor.jpg"
+            />
             
 
         </div>
