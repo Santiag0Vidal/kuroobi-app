@@ -8,6 +8,7 @@ export default function FormularioCliente({ actividad, onClose }) {
   const [actividades, setActividades] = useState([]);
   const [actividadSeleccionada, setActividadSeleccionada] = useState(null);
   const actividadCompleta = actividades.find((a) => a.nombre === actividad);
+  console.log("actividad completa", actividadCompleta);
   const [formData, setFormData] = useState({
     nombre: "",
     apellido: "",
@@ -16,24 +17,25 @@ export default function FormularioCliente({ actividad, onClose }) {
     dni: "",
     fechaNacimiento: "",
     actividad: actividad,
-    plan: actividadCompleta?.planes[0] || {},
+    plan: {},
     observaciones: "",
   });
 
-  // Cargar actividades desde el JSON al montar el componente
   useEffect(() => {
     setActividades(actividadesJson);
-    // Seleccionar la primera actividad y su primer plan por defecto
-    if (actividadesJson.length > 0) {
-      const primera = actividadesJson[0];
-      setActividadSeleccionada(primera);
+
+    // Buscar la actividad que vino por props
+    const act = actividadesJson.find((a) => a.nombre === actividad);
+
+    if (act) {
+      setActividadSeleccionada(act);
       setFormData((prev) => ({
         ...prev,
-        actividad: primera.nombre,
-        plan: primera.planes[0].nombre,
+        actividad: act.nombre,
+        plan: act.planes[0], // ahora guardamos el objeto entero
       }));
     }
-  }, []);
+  }, [actividad]);
 
   // Maneja cambios en inputs y selects
   const handleChange = (e) => {
@@ -56,9 +58,11 @@ export default function FormularioCliente({ actividad, onClose }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  cargarFormulario(formData);
-    toast.success(`Cliente ${formData.nombre} registrado correctamente 💪`);
-   window.location.href = `/pago?actividad=${encodeURIComponent(formData.actividad)}&plan=${encodeURIComponent(formData.plan.nombre)}`;
+    cargarFormulario(formData);
+    toast.success(`${formData.nombre} debes realiza el pago para ser registrado correctamente 💪`);
+    window.location.href = `/pago?actividad=${encodeURIComponent(
+      formData.actividad
+    )}&plan=${encodeURIComponent(formData.plan.nombre)}`;
     onClose();
   };
   console.log("comooooo", formData);
@@ -178,7 +182,7 @@ export default function FormularioCliente({ actividad, onClose }) {
         <div>
           <select
             name="plan"
-            value={formData.plan.nombre || ""} // mostrar el nombre del plan
+            value={formData.plan.nombre || ""}
             onChange={(e) => {
               const planObj = actividadSeleccionada.planes.find(
                 (p) => p.nombre === e.target.value
