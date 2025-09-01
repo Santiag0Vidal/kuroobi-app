@@ -58,9 +58,7 @@ export default function FormularioCliente({ actividad, onClose }) {
     e.preventDefault();
   cargarFormulario(formData);
     toast.success(`Cliente ${formData.nombre} registrado correctamente 💪`);
-    window.location.href = `/pago?actividad=${encodeURIComponent(
-      formData.actividad
-    )}&plan=${formData.plan}`;
+   window.location.href = `/pago?actividad=${encodeURIComponent(formData.actividad)}&plan=${encodeURIComponent(formData.plan.nombre)}`;
     onClose();
   };
   console.log("comooooo", formData);
