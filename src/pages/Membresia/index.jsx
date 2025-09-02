@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Dumbbell, Clock, Star, BanknoteArrowUp } from "lucide-react"; // iconos más “gym”
-import planes from "../Actividades/actividades";
+import planes from "./planes";
 import * as C from '../../componentes/index';
 
 export default function Membresias() {

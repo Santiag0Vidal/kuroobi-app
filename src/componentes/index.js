@@ -8,12 +8,15 @@ export {default as NavComun} from './Navbar/NavComun.jsx';
 export {default as Fotter} from './Footer/index.jsx'
 //Titulo
 export {default as TituloSeccion} from './TituloSeccion/index.jsx';
+export {default as Subtitulo} from './Subtitulo/index.jsx';
 
 //WhappBoot
 export {default as WhappBoot} from './WhappBoot/index.jsx';
 
 //Carrusel de reels
 export {default as CarrucelReel} from './CarrucelReels/index.jsx';
+//Tarjetas Carrusel
+export {default as Tarjetas} from './TarjetasCarrusel/index.jsx';
 
 //Informacion
 export {default as Informacion} from './Informacion/index.jsx'

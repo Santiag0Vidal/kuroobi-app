@@ -7,19 +7,16 @@ import * as P from './pages'
 function App() {
   return (
     <div>
-
-
       <main className="pt-20">
         <C.Navbar />
         <P.Inicio />
         <C.WhappBoot />
         <P.Actividades />
-       {/*  <P.Membresia /> */}
         <P.Tratamientos />
         <P.Preguntas />
         <P.Nosotros />
         <P.Contacto />
-        <C.Kuroobi />
+        <P.Novedades />
         <C.Fotter />
       </main>
     </div>

@@ -1,22 +1,45 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import * as C from '../../index';
+import { motion } from "framer-motion";
+import ModalFormulario from "../Modales/ModalFormulario";
+import actividades from "../actividades";
 
 const CardActividades = ({ titulo, descripcion, imagen }) => {
   const [open, setOpen] = useState(false);
-  console.log('des',descripcion)
+  const [planes, setPlanes] = useState([]);
+
+  // Buscar planes de la actividad
+  useEffect(() => {
+    const act = actividades.find((a) => a.nombre.toLowerCase() === descripcion.toLowerCase());
+
+    if (act) {
+      setPlanes(act.planes);
+    }
+  }, [descripcion]);
+
+  // Cerrar con tecla Escape
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, []);
+
   return (
     <>
-      {/* Card */}
-      <div
+      <motion.figure
         onClick={() => setOpen(true)}
-        className="relative cursor-pointer bg-[var(--c-graylite)] rounded-2xl overflow-hidden shadow-lg w-full max-w-6xl mx-auto hover:scale-[1.02] transition-transform duration-300"
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        className="relative cursor-pointer bg-[var(--c-graylite)] rounded-2xl overflow-hidden shadow-lg w-full max-w-6xl mx-auto"
       >
         {/* Imagen */}
         <div className="relative w-full h-64">
           <img
             src={imagen}
             alt={titulo}
+            loading="lazy"
             className="object-cover w-full h-full"
           />
 
@@ -24,33 +47,40 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
           <div className="absolute inset-0 bg-gradient-to-b from-[var(--c-ink)]/80 via-[var(--c-primary)]/50 to-transparent" />
 
           {/* Texto encima */}
-          <div className="absolute inset-0 flex flex-col justify-center items-center  text-white text-center">
-            <h2 className="text-4xl sm:text-5xl font-extrabold text-[var(--c-graylite)] text-center tracking-wide relative mb-12 drop-shadow-lg">{titulo}</h2>
-            <p className="text-sm mt-3 text-gray-200 italic">
-              Haz clic para registrarte con la membresia
+          <figcaption className="absolute inset-0 flex flex-col justify-center items-center text-white text-center px-4">
+            <h2 className="text-4xl sm:text-5xl font-extrabold text-[var(--c-graylite)] tracking-wide mb-6 drop-shadow-lg">
+              {titulo}
+            </h2>
+            <p className="text-sm text-gray-200 italic">
+              Haz clic para ver planes disponibles
             </p>
-          </div>
-
+          </figcaption>
         </div>
-      </div>
-      {/* Modal */}
+      </motion.figure>
+
+      {/* Modal con formulario */}
       {open && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md relative overflow-y-auto max-h-[90vh]">
-            {/* Botón cerrar */}
-            <button
-              onClick={() => setOpen(false)}
-              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl"
-            >
-              ✕
-            </button>
-
-            {/* Formulario */}
-            <div className="p-6">
-              <C.FormularioCliente actividad={descripcion} onClose={() => setOpen(false)} />
-            </div>
-          </div>
-        </div>
+        <motion.div
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 backdrop-blur-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 30 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+           
+          >
+            <ModalFormulario
+              setOpen={setOpen}
+              actividad={descripcion}
+              planes={planes}
+            />
+          </motion.div>
+        </motion.div>
       )}
     </>
   );

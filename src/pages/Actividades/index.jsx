@@ -1,5 +1,5 @@
-
-import * as C from "./../index";
+import * as C from "../../componentes/index.js";
+import CardActividades from "./Cards/index.jsx";
 
 export default function Actividades() {
   return (
@@ -12,17 +12,17 @@ export default function Actividades() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6 w-full">
 
-            <C.CardActividades
+            <CardActividades
               titulo="MUSCULACION"
               descripcion="Musculacion"
               imagen="/Actividades/musculacion.jpg"
             />
-             <C.CardActividades
+             <CardActividades
               titulo="KARATE"
               descripcion="Karate"
               imagen="/Actividades/karate.jpg"
             />
-             <C.CardActividades
+             <CardActividades
               titulo="INDOOR BIKE"
               descripcion="Indoor"
               imagen="/Actividades/indoor.jpg"
