@@ -1,25 +1,23 @@
 
 import './App.css'
 import * as C from './componentes'
+import * as P from './pages'
 
 
 function App() {
   return (
     <div>
-
-
       <main className="pt-20">
         <C.Navbar />
-        <C.Inicio />
-        <C.WhappBoot/>
-        <C.Actividades/>
-       {/*<C.Membresia/>*/}
-        <C.Tratamientos />
-        <C.PreFrecuentes/>
-        <C.Nosotros />
-        <C.Contacto />
-         <C.Kuroobi/>
-        <C.Fotter/>
+        <P.Inicio />
+        <C.WhappBoot />
+        <P.Actividades />
+        <P.Tratamientos />
+        <P.Preguntas />
+        <P.Nosotros />
+        <P.Contacto />
+        <P.Novedades />
+        <C.Fotter />
       </main>
     </div>
   )

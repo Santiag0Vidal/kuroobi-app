@@ -4,6 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
   --c-primary:  #961F1Cff;
   --c-ink:      #050608ff;
