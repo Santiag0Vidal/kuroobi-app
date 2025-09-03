@@ -13,4 +13,6 @@ export {default as Novedades} from '../pages/Novedades/index.jsx';
 //Carrito
 export {default as Carrito} from './Carrito/index.jsx';
 
+//No found
+export {default as NotFound} from './NotFound/index.jsx';
 

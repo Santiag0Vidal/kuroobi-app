@@ -13,7 +13,7 @@ function AppRouter() {
       <Route path="/nosotros" element={<P.Nosotros />} />
       <Route path="/membresia" element={<P.Membresia />} />
       <Route path="/preguntas" element={<P.Preguntas />} />
-      <Route path="*" element={<h1>404 - Not Found</h1>} />
+      <Route path="*" element={<P.NotFound />} />
       
     </Routes>
   );
