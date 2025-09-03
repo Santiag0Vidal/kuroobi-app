@@ -19,7 +19,7 @@ Adjunto el comprobante de pago y espero la confirmación del equipo.
   `);
 
   const enviarWhatsApp = () => {
-    const numero = "542995013379";
+    const numero = "5492994539213";
     const urlMensaje = `https://wa.me/${numero}?text=${encodeURIComponent(
       mensaje
     )}`;
