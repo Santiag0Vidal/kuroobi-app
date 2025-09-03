@@ -13,6 +13,9 @@ export {default as Subtitulo} from './Subtitulo/index.jsx';
 //WhappBoot
 export {default as WhappBoot} from './WhappBoot/index.jsx';
 
+//GeneradorMsj
+export {default as GeneradorMsj} from './GeneradorMjs/index.jsx'
+
 //Carrusel de reels
 export {default as CarrucelReel} from './CarrucelReels/index.jsx';
 //Tarjetas Carrusel

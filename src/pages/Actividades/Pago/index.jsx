@@ -109,7 +109,7 @@ export default function Pago() {
                   borrarFormulario();
                   window.history.back();
                 }}
-                className="w-full py-3 px-4 rounded-2xl bg-gray-100 text-gray-700 font-semibold hover:bg-gray-200 transition"
+                className="w-full py-3 px-4 rounded-2xl bg-gray-300 text-gray-700 font-semibold hover:bg-gray-200 transition"
               >
                 Cancelar
               </button>
