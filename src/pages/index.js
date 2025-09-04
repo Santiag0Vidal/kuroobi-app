@@ -10,6 +10,8 @@ export {default as Preguntas} from '../pages/Preguntas/index.jsx';
 export {default as Pago} from '../pages/Actividades/Pago/index.jsx';
 export {default as Novedades} from '../pages/Novedades/index.jsx'; 
 
+export {default as HorariosGym} from './Horarios/index.jsx'
+
 export {default as Sede} from './Sede/index.jsx';
 
 //Carrito

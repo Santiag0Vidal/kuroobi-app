@@ -5,7 +5,7 @@ export default function Actividades() {
   return (
     <section
       id="actividades"
-       className="bg-[var(--c-ink)] min-h-screen flex flex-col items-center py-16 px-6"
+      className="min-h-screen flex flex-col items-center justify-center text-center bg-gradient-to-b from-[var(--c-ink)]  to-[var(--c-brown)] px-4"
     >
       <div className="flex flex-col items-center max-w-7xl w-full">
         <C.TituloSeccion texto="ALTERNATIVAS DE ACTIVIDADES"/>

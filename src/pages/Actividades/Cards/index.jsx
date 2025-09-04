@@ -10,7 +10,9 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
 
   // Buscar planes de la actividad
   useEffect(() => {
-    const act = actividades.find((a) => a.nombre.toLowerCase() === descripcion.toLowerCase());
+    const act = actividades.find(
+      (a) => a.nombre.toLowerCase() === descripcion.toLowerCase()
+    );
 
     if (act) {
       setPlanes(act.planes);
@@ -29,6 +31,7 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
   return (
     <>
       <motion.figure
+      
         onClick={() => setOpen(true)}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
@@ -72,7 +75,6 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 30 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-           
           >
             <ModalFormulario
               setOpen={setOpen}

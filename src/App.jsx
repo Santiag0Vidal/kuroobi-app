@@ -5,13 +5,13 @@ import * as P from "./pages";
 function App() {
   return (
     <div>
-      <main className="pt-20">
+      <main className="pt-20 bg-[var(--c-ink)]">
         <C.Navbar />
         <P.Inicio />
         <P.Sede />
         <C.WhappBoot />
         <P.Actividades />
-
+        <P.HorariosGym />
         {/*
        <P.Preguntas />
          <P.Tratamientos />

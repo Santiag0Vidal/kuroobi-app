@@ -4,7 +4,7 @@ export default function Sede() {
   return (
     <section
       id="sede"
-      className="bg-[var(--c-ink)] min-h-screen flex flex-col items-center py-16 px-1"
+            className="min-h-screen flex flex-col items-center justify-center text-center bg-gradient-to-b from-[var(--c-ink)] to-[var(--c-ink)]  px-4"
     >
       <C.TituloSeccion texto="NUESTRO ESPACIO EN NEUQUÉN" />
       <C.Sede />
