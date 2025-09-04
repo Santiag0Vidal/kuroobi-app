@@ -1,8 +1,6 @@
-
-import './App.css'
-import * as C from './componentes'
-import * as P from './pages'
-
+import "./App.css";
+import * as C from "./componentes";
+import * as P from "./pages";
 
 function App() {
   return (
@@ -10,18 +8,21 @@ function App() {
       <main className="pt-20">
         <C.Navbar />
         <P.Inicio />
+        <P.Sede />
         <C.WhappBoot />
         <P.Actividades />
-        <P.Tratamientos />
-        <P.Preguntas />
+
+        {/*
+       <P.Preguntas />
+         <P.Tratamientos />
+       */}
         <P.Nosotros />
         <P.Contacto />
         <P.Novedades />
         <C.Fotter />
       </main>
     </div>
-  )
+  );
 }
 
-
-export default App
+export default App;

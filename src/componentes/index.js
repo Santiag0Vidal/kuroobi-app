@@ -20,6 +20,8 @@ export {default as GeneradorMsj} from './GeneradorMjs/index.jsx'
 export {default as CarrucelReel} from './CarrucelReels/index.jsx';
 //Tarjetas Carrusel
 export {default as Tarjetas} from './TarjetasCarrusel/index.jsx';
+//Sede Carrusel
+export {default as Sede} from './SedeCarrusel/index.jsx'
 
 //Informacion
 export {default as Informacion} from './Informacion/index.jsx'

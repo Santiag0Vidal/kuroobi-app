@@ -13,13 +13,13 @@ export default function WhatsappBot() {
       {/* Botón flotante */}
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 bg-[var(--c-primary)] text-white p-4 rounded-full shadow-xl hover:bg-[var(--c-maroon)] transition-all z-50"
+        className="fixed bottom-6 right-6 bg-[var(--c-primary)] text-white p-4 rounded-full shadow-xl hover:bg-[var(--c-maroon)] transition-all z-50  animate-bounce"
         title="Comunicate con nosotros"
       >
         {open ? <X className="w-6 h-6" /> : <img src="/iconos/wp.png" alt="WhatsApp" className="w-10 h-10" />}
       </button>
 
-      {/* Panel de preguntas con animación */}
+
       <AnimatePresence>
         {open && (
           <motion.div
