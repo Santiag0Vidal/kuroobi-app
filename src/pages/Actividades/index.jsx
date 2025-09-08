@@ -15,7 +15,7 @@ export default function Actividades() {
             <CardActividades
               titulo="MUSCULACION"
               descripcion="Musculacion"
-              imagen="/Actividades/musculacion.jpg"
+              imagen="/Actividades/musculacion.JPG"
             />
              <CardActividades
               titulo="KARATE"
@@ -25,7 +25,7 @@ export default function Actividades() {
              <CardActividades
               titulo="INDOOR BIKE"
               descripcion="Indoor"
-              imagen="/Actividades/indoor.jpg"
+              imagen="/Actividades/indoor.JPG"
             />
             
 

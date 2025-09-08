@@ -1,0 +1,17 @@
+.swiper-wrapper {
+  width: 50% !important;
+  height: 50% !important;
+  padding-bottom: 12px !important;
+  transition-timing-function: ease-in-out !important;
+}
+
+.swiper-pagination-progressbar {
+  height: 2px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.swiper-pagination-progressbar .swiper-pagination-progressbar-fill {
+  background: #7c3aed !important;
+  border-radius: 4px;
+}

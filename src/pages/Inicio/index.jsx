@@ -1,5 +1,5 @@
 import img from "../../assets/log-sin.png";
-import bg from "../../assets/fondo.jpg"; 
+import bg from "../../assets/fondo-k.JPG"; 
 
 export default function Inicio() {
   return (
