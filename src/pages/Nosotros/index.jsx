@@ -1,5 +1,5 @@
-import staff from "./kinesiolos"; // tu array con datos del staff actualizado
-import { motion } from "framer-motion";
+//import staff from "./kinesiolos"; // tu array con datos del staff actualizado
+// import { motion } from "framer-motion";
 import * as C from "../../componentes/index";
 import actividades from "../Actividades/actividades"
 
@@ -37,9 +37,8 @@ export default function Nosotros() {
 
         {/* Horarios de apertura */}
         <p className="mt-6 text-[var(--c-graylite)]">
-          Abierto Lunes a Viernes de 07:00 a 23:00 hs.
-          <br />
-          Sábados de 09:00 a 13:00 hs.
+          Abierto Lunes a Viernes de 07:00 a 22:00 hs.
+        
         </p>
 
         
@@ -50,9 +49,11 @@ export default function Nosotros() {
           transformación con nosotros. #readaptaciondeportiva #rehabilitación
           #fisioterapia #sportsrehab #wellness
         </p>
+         <C.Informacion/>
 
-        {/* Grid de staff */}
-        <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl w-full">
+        {/* Grid de staff 
+        
+             <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl w-full">
           {staff.map((member, index) => (
             <motion.div
               key={index}
@@ -85,6 +86,9 @@ export default function Nosotros() {
             </motion.div>
           ))}
         </div>
+        
+        */}
+   
       </div>
     </section>
   );
