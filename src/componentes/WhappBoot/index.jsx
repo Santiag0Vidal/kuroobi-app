@@ -5,7 +5,7 @@ import preguntas from "./preguntas";
 
 export default function WhatsappBot() {
   const [open, setOpen] = useState(false);
-  const whatsappNumber = "542994539213";
+  const whatsappNumber = "542996055279";
  
 
   return (

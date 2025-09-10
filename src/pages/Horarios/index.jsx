@@ -3,7 +3,7 @@ import { ChevronDown, ChevronUp } from "lucide-react"; // ← iconos modernos
 import horarios from "./horarios";
 import * as C from "../../componentes/index";
 
-const dias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+const dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"];
 
 export default function HorariosAcordeon() {
   const [openDay, setOpenDay] = useState(null);

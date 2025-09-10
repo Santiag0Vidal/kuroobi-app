@@ -7,7 +7,7 @@ const NavLink = [
   { id: "horarios", label: "Cronograma" },
   { id: "nosotros", label: "Nosotros" },
   { id: "contacto", label: "Contacto" },
-  { id: "novedades", label: "Novedades" },
+//  { id: "novedades", label: "Novedades" },
 ];
 
 export default NavLink;

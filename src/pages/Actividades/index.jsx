@@ -23,9 +23,34 @@ export default function Actividades() {
               imagen="/Actividades/karate.jpg"
             />
              <CardActividades
-              titulo="INDOOR BIKE"
+              titulo="KARATE NIÑOS"
+              descripcion="Karate Niños"
+              imagen="/Actividades/karate-ni.jpg"
+            />
+             <CardActividades
+              titulo="INDOOR CYCLING"
               descripcion="Indoor"
               imagen="/Actividades/indoor.JPG"
+            />
+            <CardActividades
+              titulo="FUNCIONAL"
+              descripcion="Funcional"
+              imagen="/Actividades/funcional.jpg"
+            />
+            <CardActividades
+              titulo="YOGA"
+              descripcion="Yoga"
+              imagen="/Actividades/yoga.jpg"
+            />
+            <CardActividades
+              titulo="STRETCHING"
+              descripcion="Stretching"
+              imagen="/Actividades/stretching.png"
+            />
+            <CardActividades
+              titulo="GAP"
+              descripcion="GAP"
+              imagen="/Actividades/gap.jpg"
             />
             
 

@@ -1,5 +1,5 @@
 import * as C from "../../componentes/index";
-import { Phone, Globe, Mail} from "lucide-react";
+
 
 export default function Contacto() {
   return (
@@ -16,25 +16,11 @@ export default function Contacto() {
           <div className="relative z-10 flex-1 p-8 lg:p-12 text-[var(--c-brown)] text-center lg:text-left space-y-6">
             <h3 className="text-3xl font-bold mb-4">¡Contáctanos!</h3>
 
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 justify-center lg:justify-start hover:text-[var(--c-primary)] transition">
-                <Phone className="w-6 h-6" />
-                <span>(0299) 4483878 | (0299) 155498059 | 2995498059</span>
-              </div>
-              <div className="flex items-center gap-3 justify-center lg:justify-start hover:text-[var(--c-primary)] transition">
-                <Globe className="w-6 h-6" />
-                <span>www.gimnasiokuroobineuquen.com.ar</span>
-              </div>
-              <div className="flex items-center gap-3 justify-center lg:justify-start hover:text-[var(--c-primary)] transition">
-                <Mail className="w-6 h-6" />
-                <span>kuroobiclub@hotmail.com | kuroobiclubdebienestar@gmail.com</span>
-              </div>
-            </div>
 
             {/* Redes sociales */}
             <div className="flex justify-center lg:justify-start gap-6 mt-4">
               <a
-                href="https://wa.me/5492994539213"
+                href="https://wa.me/542996055279"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-[var(--c-primary)] hover:bg-[var(--c-maroon)] transition-all rounded-full p-3 shadow-lg hover:shadow-[0_6px_20px_-4px_rgba(150,31,28,0.7)]"

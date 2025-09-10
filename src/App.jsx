@@ -15,10 +15,10 @@ function App() {
         {/*
        <P.Preguntas />
          <P.Tratamientos />
+        <P.Novedades />
        */}
         <P.Nosotros />
         <P.Contacto />
-        <P.Novedades />
         <C.Fotter />
       </main>
     </div>

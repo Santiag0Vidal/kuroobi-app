@@ -15,6 +15,41 @@ const actividad = [
     ],
   },
   {
+    nombre: "Karate Niños",
+    planes: [
+      { nombre: "Basico", precio: "$4000", link: "https://mpago.li/29puvRJ", descripcion: "Acceso al gimnasio en horarios de menor afluencia." },
+      { nombre: "Full", precio: "$9000", link: "https://mpago.li/29puvRJ", descripcion: "Acceso completo al gimnasio y clases grupales." },
+    ],
+  },
+  {
+    nombre: "GAP",
+    planes: [
+      { nombre: "Basico", precio: "$4000", link: "https://mpago.li/29puvRJ", descripcion: "Acceso al gimnasio en horarios de menor afluencia." },
+      { nombre: "Full", precio: "$9000", link: "https://mpago.li/29puvRJ", descripcion: "Acceso completo al gimnasio y clases grupales." },
+    ],
+  },
+  {
+    nombre: "Funcional",
+    planes: [
+      { nombre: "Basico", precio: "$4000", link: "https://mpago.li/29puvRJ", descripcion: "Acceso al gimnasio en horarios de menor afluencia." },
+      { nombre: "Full", precio: "$9000", link: "https://mpago.li/29puvRJ", descripcion: "Acceso completo al gimnasio y clases grupales." },
+    ],
+  },
+  {
+    nombre: "Stretching",
+    planes: [
+      { nombre: "Basico", precio: "$4000", link: "https://mpago.li/29puvRJ", descripcion: "Acceso al gimnasio en horarios de menor afluencia." },
+      { nombre: "Full", precio: "$9000", link: "https://mpago.li/29puvRJ", descripcion: "Acceso completo al gimnasio y clases grupales." },
+    ],
+  },
+  {
+    nombre: "Yoga",
+    planes: [
+      { nombre: "Basico", precio: "$4000", link: "https://mpago.li/29puvRJ", descripcion: "Acceso al gimnasio en horarios de menor afluencia." },
+      { nombre: "Full", precio: "$9000", link: "https://mpago.li/29puvRJ", descripcion: "Acceso completo al gimnasio y clases grupales." },
+    ],
+  },
+  {
     nombre: "Indoor",
     planes: [
       { nombre: "Mensual", precio: "$3000", link: "https://mpago.li/29puvRJ", descripcion: "Acceso al gimnasio en horarios de menor afluencia." },
