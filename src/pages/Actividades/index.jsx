@@ -52,7 +52,11 @@ export default function Actividades() {
               descripcion="GAP"
               imagen="/Actividades/gap.jpg"
             />
-            
+            <CardActividades
+              titulo="PASE FULL"
+              descripcion="Full"
+              imagen="/Actividades/full.png"
+            />
 
         </div>
         </div>

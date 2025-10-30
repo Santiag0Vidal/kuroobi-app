@@ -15,7 +15,7 @@ const ModalFormulario = ({ setOpen, actividad, planes }) => {
                 transition={{ duration: 0.35, ease: "easeOut" }}
                 className="rounded-2xl shadow-2xl w-full max-w-2xl relative overflow-y-auto max-h-[90vh] bg-white scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 hover:scrollbar-thumb-gray-100"
             >
-                {/* Botón de cerrar */}
+                {/* Boton de cerrar */}
                 <button
                     onClick={() => setOpen(false)}
                     className="absolute top-4 right-4 p-2 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-700 transition shadow-sm"

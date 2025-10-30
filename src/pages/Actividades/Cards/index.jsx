@@ -5,10 +5,12 @@ import ModalFormulario from "../Modales/ModalFormulario";
 import actividades from "../actividades";
 
 const CardActividades = ({ titulo, descripcion, imagen }) => {
-  const [open, setOpen] = useState(false);
+  const [showDescripcion, setShowDescripcion] = useState(false); // Nuevo modal
+  const [openFormulario, setOpenFormulario] = useState(false);
   const [planes, setPlanes] = useState([]);
+  const [descripcionActi, setDescripcionActi] = useState("");
 
-  // Buscar planes de la actividad
+  // Buscar planes de la actividad y descripción
   useEffect(() => {
     const act = actividades.find(
       (a) => a.nombre.toLowerCase() === descripcion.toLowerCase()
@@ -16,13 +18,17 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
 
     if (act) {
       setPlanes(act.planes);
+      setDescripcionActi(act.descripcionActi); // Guardamos la descripción
     }
   }, [descripcion]);
 
-  // Cerrar con tecla Escape
+  // Cerrar con Escape
   useEffect(() => {
     const handleKey = (e) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        setShowDescripcion(false);
+        setOpenFormulario(false);
+      }
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
@@ -31,13 +37,11 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
   return (
     <>
       <motion.figure
-      
-        onClick={() => setOpen(true)}
+        onClick={() => setShowDescripcion(true)}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         className="relative cursor-pointer bg-[var(--c-graylite)] rounded-2xl overflow-hidden shadow-lg w-full max-w-6xl mx-auto"
       >
-        {/* Imagen */}
         <div className="relative w-full h-64">
           <img
             src={imagen}
@@ -45,11 +49,7 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
             loading="lazy"
             className="object-cover w-full h-full"
           />
-
-          {/* Degradado */}
           <div className="absolute inset-0 bg-gradient-to-b from-[var(--c-ink)]/80 via-[var(--c-primary)]/50 to-transparent" />
-
-          {/* Texto encima */}
           <figcaption className="absolute inset-0 flex flex-col justify-center items-center text-white text-center px-4">
             <h2 className="text-4xl sm:text-5xl font-extrabold text-[var(--c-graylite)] tracking-wide mb-6 drop-shadow-lg">
               {titulo}
@@ -61,8 +61,43 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
         </div>
       </motion.figure>
 
+      {/* Modal de descripción */}
+      {showDescripcion && (
+        <motion.div
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 backdrop-blur-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <motion.div
+            className="bg-white/10 backdrop-blur-md text-white rounded-2xl p-6 max-w-md text-center shadow-2xl"
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 30 }}
+          >
+            <h2 className="text-2xl font-bold mb-4">{titulo}</h2>
+            <p className="mb-6">{descripcionActi}</p>
+            <button
+              className="bg-yellow-400 text-black px-6 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition"
+              onClick={() => {
+                setShowDescripcion(false);
+                setOpenFormulario(true);
+              }}
+            >
+              Ver planes
+            </button>
+            <button
+              className="ml-4 bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition"
+              onClick={() => setShowDescripcion(false)}
+            >
+              Cancelar
+            </button>
+          </motion.div>
+        </motion.div>
+      )}
+
       {/* Modal con formulario */}
-      {open && (
+      {openFormulario && (
         <motion.div
           className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 backdrop-blur-sm"
           initial={{ opacity: 0 }}
@@ -77,7 +112,7 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
             transition={{ duration: 0.4, ease: "easeOut" }}
           >
             <ModalFormulario
-              setOpen={setOpen}
+              setOpen={setOpenFormulario}
               actividad={descripcion}
               planes={planes}
             />

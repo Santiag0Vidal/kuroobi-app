@@ -14,7 +14,7 @@ const ModalDescripcion = ({setOpen, cliente }) => {
             transition={{ duration: 0.35, ease: "easeOut" }}
             className="rounded-2xl shadow-2xl w-full max-w-3xl relative overflow-y-auto max-h-[90vh] bg-white p-6"
           >
-            {/* Botón de cerrar */}
+            {/* Boton de cerrar */}
             <button
               onClick={() => setOpen(false)}
               className="absolute top-4 right-4 p-2 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-700 transition shadow-sm"
@@ -24,12 +24,12 @@ const ModalDescripcion = ({setOpen, cliente }) => {
 
             {/* Contenido */}
             <div className="space-y-4">
-              {/* Subtítulo */}
+              {/* Subtitulo */}
               <h2 className="text-2xl sm:text-3xl font-bold text-[var(--c-primary)] text-center">
                 {cliente?.plan?.nombre || "Plan"}
               </h2>
 
-              {/* Descripción */}
+              {/* Descripcion */}
               <div className="bg-gray-50 p-4 rounded-xl shadow-inner text-gray-700">
                 <p className="text-sm sm:text-base">
                   {cliente?.plan?.descripcion || "Sin descripcion disponible."}

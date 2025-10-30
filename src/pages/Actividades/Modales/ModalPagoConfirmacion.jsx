@@ -31,7 +31,7 @@ export default function ModalPagoConfirmacion({ plan, cliente, setOpen }) {
             <div className="p-6 overflow-y-auto flex-1 space-y-6">
               <h2 className="text-3xl font-bold text-blue-600 flex items-center justify-center gap-3">
                 <CreditCard className="w-6 h-6" />
-                Confirma tu pago
+                Confirma tu pago 
               </h2>
 
               {/* Información del plan */}

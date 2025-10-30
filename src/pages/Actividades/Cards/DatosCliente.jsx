@@ -30,7 +30,7 @@ const DatosCliente = ({ cliente }) => {
 
                         <p className="flex items-center gap-3 text-gray-700 hover:text-[var(--c-primary)] transition-colors">
                             <Phone className="w-5 h-5 text-[var(--c-primary)]" />
-                            <span>Tel.: <strong>{telefono || "—"}</strong></span>
+                            <span>Tel.: <strong>{telefono || "?"}</strong></span>
                         </p>
 
                         <p className="flex items-center gap-3 text-gray-700 hover:text-[var(--c-primary)] transition-colors">

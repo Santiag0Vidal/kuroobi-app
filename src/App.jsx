@@ -12,6 +12,7 @@ function App() {
         <C.WhappBoot />
         <P.Actividades />
         <P.HorariosGym />
+        <P.Descuentos />
        
         {/*
        <P.Preguntas />
