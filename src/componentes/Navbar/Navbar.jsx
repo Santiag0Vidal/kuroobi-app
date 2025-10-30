@@ -1,6 +1,7 @@
 import { useState } from "react";
 import navLinks from "./navLinks.js";
 import * as C from "../index";
+import ConectarButton from "../../utils/conexion_back.jsx";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false); // controla menú móvil
@@ -33,6 +34,7 @@ function Navbar() {
               </a>
             </li>
           ))}
+             <ConectarButton/>
         </ul>
       </div>
 
@@ -50,6 +52,7 @@ function Navbar() {
               </a>
             </li>
           ))}
+          <ConectarButton/>
         </ul>
       )}
     </nav>
