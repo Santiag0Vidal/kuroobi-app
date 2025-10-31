@@ -1,7 +1,7 @@
 
 export default function ConectarButton() {
   const handleClick = () => {
-    window.location.href = 'http://localhost:5173/';
+    window.location.href = 'https://front-kuro.vercel.app/login';
   };
 
   return (
