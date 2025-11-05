@@ -1,7 +1,8 @@
-const actividad = [
+const actividades = [
   {
     nombre: "Musculacion",
     descripcionActi: "Entrena fuerza y resistencia muscular con rutinas guiadas. Ideal para tonificar y aumentar masa muscular.",
+    imagenModal: "/Siluetas/musculacion.png",
     planes: [
       {
         nombre: "2 días/semana",
@@ -29,6 +30,7 @@ const actividad = [
   {
     nombre: "Karate",
     descripcionActi: "Aprende técnicas de Karate para defensa personal, disciplina y coordinación.",
+    imagenModal: "/Siluetas/karate.png", 
     planes: [
       {
         nombre: "2 días/semana",
@@ -44,12 +46,12 @@ const actividad = [
         descripcion:
           "Incluye 3 clases semanales, entrenamientos avanzados y práctica de katas y técnicas de defensa.",
       },
-    
     ],
   },
   {
     nombre: "Karate Niños",
     descripcionActi: "Clases de Karate para niños, fomentando disciplina, coordinación y confianza.",
+    imagenModal: "/Siluetas/karateninios.png",
     planes: [
       {
         nombre: "2 días/semana",
@@ -65,12 +67,12 @@ const actividad = [
         descripcion:
           "3 clases semanales con técnicas adaptadas a niños y actividades lúdicas de aprendizaje.",
       },
-      
     ],
   },
   {
     nombre: "GAP",
     descripcionActi: "Entrenamiento específico de Glúteos, Abdominales y Piernas para tonificar y fortalecer.",
+    imagenModal: "/Siluetas/GAP.png",
     planes: [
       {
         nombre: "2 días/semana",
@@ -86,12 +88,12 @@ const actividad = [
         descripcion:
           "3 clases semanales, combinando ejercicios de fuerza y resistencia para tonificar el cuerpo inferior.",
       },
-      
     ],
   },
   {
     nombre: "Funcional",
     descripcionActi: "Entrenamiento integral con ejercicios funcionales para fuerza, resistencia y coordinación.",
+    imagenModal: "/Siluetas/funcional.png", 
     planes: [
       {
         nombre: "2 días/semana",
@@ -107,12 +109,12 @@ const actividad = [
         descripcion:
           "3 sesiones semanales de alta intensidad, con circuitos para fuerza, agilidad y resistencia.",
       },
-     
     ],
   },
   {
     nombre: "Stretching",
     descripcionActi: "Rutinas de estiramiento para mejorar flexibilidad, postura y recuperación muscular.",
+    imagenModal: "/Siluetas/STRETCHING.png",
     planes: [
       {
         nombre: "2 días/semana",
@@ -128,17 +130,17 @@ const actividad = [
         descripcion:
           "3 clases semanales combinando técnicas de estiramiento y respiración para bienestar general.",
       },
-     
     ],
   },
   {
     nombre: "Yoga",
     descripcionActi: "Práctica de Yoga para mejorar flexibilidad, fuerza, respiración y equilibrio mental.",
+    imagenModal: "/Siluetas/yoga.png", 
     planes: [
       {
         nombre: "2 días/semana",
         precio: "$55.000",
-        link: "https://mpago.li/29puvRJ",
+        link: "Siluetas/yoga.png",
         descripcion:
           "2 clases semanales de Yoga, enfocadas en posturas básicas, respiración y relajación.",
       },
@@ -149,12 +151,12 @@ const actividad = [
         descripcion:
           "3 clases semanales con posturas intermedias y técnicas de meditación guiada.",
       },
-    
     ],
   },
   {
     nombre: "Indoor",
     descripcionActi: "Clases de Indoor Cycling para mejorar resistencia cardiovascular y quema de calorías.",
+    imagenModal: "/Siluetas/indoor.png", 
     planes: [
       {
         nombre: "2 días/semana",
@@ -170,12 +172,12 @@ const actividad = [
         descripcion:
           "3 clases semanales de intensidad moderada a alta, con entrenamiento cardiovascular completo.",
       },
-     
     ],
   },
   {
     nombre: "Full",
     descripcionActi: "Acceder a todas las disciplicass que quieras, karate, yoga, musculacion entre otras",
+    imagenModal: "/assets/imagenes/full-modal.jpg",
     planes: [
       {
         nombre: "Full pass",
@@ -184,9 +186,8 @@ const actividad = [
         descripcion:
           "Acceso a todas las disciplicas que brinda el gym",
       },
-      
     ],
   },
 ];
 
-export default actividad;
+export default actividades;

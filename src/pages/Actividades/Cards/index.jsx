@@ -2,15 +2,16 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { motion } from "framer-motion";
 import ModalFormulario from "../Modales/ModalFormulario";
-import actividades from "../actividades";
+import actividades from "../actividades"; // Asegúrate que esta ruta sea correcta
 
 const CardActividades = ({ titulo, descripcion, imagen }) => {
-  const [showDescripcion, setShowDescripcion] = useState(false); // Nuevo modal
+  const [showDescripcion, setShowDescripcion] = useState(false);
   const [openFormulario, setOpenFormulario] = useState(false);
   const [planes, setPlanes] = useState([]);
   const [descripcionActi, setDescripcionActi] = useState("");
+  const [imagenModal, setImagenModal] = useState(""); // <-- NUEVO ESTADO
 
-  // Buscar planes de la actividad y descripción
+  // Buscar planes, descripción e imagen del modal de la actividad
   useEffect(() => {
     const act = actividades.find(
       (a) => a.nombre.toLowerCase() === descripcion.toLowerCase()
@@ -18,7 +19,8 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
 
     if (act) {
       setPlanes(act.planes);
-      setDescripcionActi(act.descripcionActi); // Guardamos la descripción
+      setDescripcionActi(act.descripcionActi);
+      setImagenModal(act.imagenModal);
     }
   }, [descripcion]);
 
@@ -64,17 +66,24 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
       {/* Modal de descripción */}
       {showDescripcion && (
         <motion.div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 backdrop-blur-sm"
-          initial={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4 backdrop-blur-sm"
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
           <motion.div
-            className="bg-white/10 backdrop-blur-md text-white rounded-2xl p-6 max-w-md text-center shadow-2xl"
-            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            className="bg-white/40 backdrop-blur-md text-white rounded-2xl p-6 max-w-md text-center shadow-2xl" 
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 30 }}
           >
+            {/* <-- INSERCIÓN DE LA IMAGEN DEL MODAL --> */}
+            {imagenModal && (
+              <img
+                src={imagenModal}
+                alt={titulo}
+                className="w-full h-40 object-contain rounded-xl mb-4" />
+            )}
+            {/* <------------------------------------> */}
+
             <h2 className="text-2xl font-bold mb-4">{titulo}</h2>
             <p className="mb-6">{descripcionActi}</p>
             <button
@@ -99,13 +108,16 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
       {/* Modal con formulario */}
       {openFormulario && (
         <motion.div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 backdrop-blur-sm"
+          // ESTE DEBE SER EL OVERLAY DE PANTALLA COMPLETA Y EL FONDO OSCURO
+          className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4 backdrop-blur-sm" // Opacidad del fondo aumentada a /70
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
           <motion.div
+            // ESTE CONTENEDOR ES EL QUE ENCIERRA EL ModalFormulario y le da el estilo de 'vidrio'
+            className="bg-white/30 backdrop-blur-md text-white rounded-2xl p-6 max-w-md text-center shadow-2xl" // Opacidad del contenido aumentada a /30
             initial={{ opacity: 0, scale: 0.9, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 30 }}
