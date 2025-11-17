@@ -71,7 +71,7 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
           exit={{ opacity: 0 }}
         >
           <motion.div
-            className="bg-white/40 backdrop-blur-md text-white rounded-2xl p-6 max-w-md text-center shadow-2xl" 
+            className="bg-white/35 backdrop-blur-md text-white rounded-2xl p-6 max-w-md text-center shadow-2xl" 
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 30 }}
           >
