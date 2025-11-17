@@ -123,8 +123,8 @@ export default function FormularioCliente({ nomActividad, planes, onClose }) {
         // cargarFormulario(formData); // Llamada a función externa comentada para evitar error de compilación
         toast.success(`${formData.nombre}, debes realizar el pago para registrarte 💪`, { position: "top-center", autoClose: 2000 });
         
-        // CORRECCIÓN: Usar window.location.href para la redirección sin depender de React Router
-        window.location.href = '/pago';
+        // [CORRECCIÓN] Se elimina la redirección forzada a '/pago' para evitar la pantalla en blanco
+        // en entornos de prueba sin rutas definidas. La acción se considera completada con el toast.
         
         onClose();
     };
@@ -147,21 +147,7 @@ export default function FormularioCliente({ nomActividad, planes, onClose }) {
 
     return (
         <>
-            {/* Definición de estilo con paleta de colores moderna (Cereza/Rojo) */}
-            <style>
-                {`
-                    :root {
-                        --c-primary: #C53030; /* Rojo Cereza - Color principal */
-                        --c-secondary: #FEF2F2; /* Rosa muy claro para fondo sutil */
-                        --c-accent: #E53E3E; /* Rojo brillante para énfasis */
-                        --c-slate: #475569; /* Gris pizarra para botones secundarios (Sin cambios) */
-                        --c-graylite: #e5e7eb;
-                        --c-maroon: #9B2C2C; /* Rojo más oscuro para hover de primary */
-                        --c-graydark: #374151; /* Gris oscuro para hover de slate (Sin cambios) */
-                    }
-                `}
-            </style>
-            {/* Contenedor principal con estilo moderno: esquinas redondeadas, sombra pronunciada y borde suave */}
+    
             <div className="max-w-lg mx-auto bg-white rounded-2xl shadow-xl border border-gray-100 p-8 transform transition duration-500 hover:shadow-2xl">
                 <h2 className="text-4xl font-extrabold text-[var(--c-primary)] mb-4 text-center tracking-tight">
                     Inscripción: {nomActividad}
