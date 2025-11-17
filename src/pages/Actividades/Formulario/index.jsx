@@ -32,24 +32,35 @@ export default function FormularioCliente({ nomActividad, planes, onClose }) {
         fechaNacimiento: "",
         actividad: nomActividad,
         plan: planes[0] || {},
-        condicionFisica: "", // NUEVO: Campo para la condición física/salud
+        condicionFisica: "", // Campo para la condición física/salud
         observaciones: "", 
     });
     const [isTabValid, setIsTabValid] = useState(false);
-    const [isMinor, setIsMinor] = useState(false); // 3. Nuevo estado para edad
+    const [isMinor, setIsMinor] = useState(false); // Nuevo estado para edad
 
     // Clase de Input con estilo moderno: bordes más suaves, sombra sutil y anillo de enfoque primario
     const inputClass =
         "w-full border border-gray-300 bg-white rounded-lg px-4 py-3 focus:outline-none focus:ring-3 focus:ring-[var(--c-primary)] transition duration-300 shadow-sm";
 
     const tabs = [
-        { id: "personal", label: "Personal", fields: ["nombre", "apellido", "dni", "fechaNacimiento"], icon: <User className="w-5 h-5 mr-2" /> },
-        { id: "contacto", label: "Contacto", fields: ["email", "telefono"], icon: <Phone className="w-5 h-5 mr-2" /> },
-        { id: "plan", label: "Plan", fields: ["plan"], icon: <CreditCard className="w-5 h-5 mr-2" /> },
-        { id: "condicion", label: "Salud Física", fields: ["condicionFisica"], icon: <HeartPulse className="w-5 h-5 mr-2" /> }, // NUEVA PESTAÑA
-        { id: "observaciones", label: "Notas", fields: ["observaciones"], icon: <FileText className="w-5 h-5 mr-2" /> },
-        { id: "enviar", label: "Confirmar", fields: [], icon: <Send className="w-5 h-5 mr-2" /> },
+        { id: "personal", label: "Personal", fields: ["nombre", "apellido", "dni", "fechaNacimiento"], icon: <User className="w-5 h-5" /> },
+        { id: "contacto", label: "Contacto", fields: ["email", "telefono"], icon: <Phone className="w-5 h-5" /> },
+        { id: "plan", label: "Plan", fields: ["plan"], icon: <CreditCard className="w-5 h-5" /> },
+        { id: "condicion", label: "Salud Física", fields: ["condicionFisica"], icon: <HeartPulse className="w-5 h-5" /> }, 
+        { id: "observaciones", label: "Notas", fields: ["observaciones"], icon: <FileText className="w-5 h-5" /> },
+        { id: "enviar", label: "Confirmar", fields: [], icon: <Send className="w-5 h-5" /> },
     ];
+
+    const totalSteps = tabs.length;
+    const currentIndex = tabs.findIndex((t) => t.id === activeTab);
+    const currentStep = currentIndex + 1;
+    const progress = (currentStep / totalSteps) * 100;
+    
+    // Obtener el objeto del tab activo para extraer el label y el icono
+    const activeTabObj = tabs.find(t => t.id === activeTab);
+    const currentLabel = activeTabObj?.label;
+    const currentIcon = activeTabObj?.icon;
+
 
     useEffect(() => {
         const tab = tabs.find((t) => t.id === activeTab);
@@ -89,7 +100,7 @@ export default function FormularioCliente({ nomActividad, planes, onClose }) {
         // El tab es válido si todos los campos requeridos son llenados Y no es menor de edad
         setIsTabValid(fieldsValid && isAgeValid);
 
-    }, [activeTab, formData, tabs]); // Añadido 'tabs' para evitar warning en dependencias
+    }, [activeTab, formData, tabs]);
 
 
     const handleChange = (e) => {
@@ -105,7 +116,7 @@ export default function FormularioCliente({ nomActividad, planes, onClose }) {
         e.preventDefault();
         // Se valida isTabValid, que incluye la validación de edad
         if (!isTabValid && activeTab === 'enviar') {
-             toast.error("Por favor, revisa las pestañas anteriores y completa los campos obligatorios.", { position: "top-center", autoClose: 3000 });
+             toast.error("Por favor, revisa los pasos anteriores y completa los campos obligatorios.", { position: "top-center", autoClose: 3000 });
              return;
         }
 
@@ -127,26 +138,10 @@ export default function FormularioCliente({ nomActividad, planes, onClose }) {
         }
     };
 
-    // Lógica para la navegación secuencial al hacer clic en las pestañas
-    const handleTabClick = (tabId) => {
-        const targetIndex = tabs.findIndex((t) => t.id === tabId);
+    const prevTab = () => {
         const currentIndex = tabs.findIndex((t) => t.id === activeTab);
-
-        // Permitir ir hacia atrás o quedarse en el tab actual libremente
-        if (targetIndex <= currentIndex) {
-            setActiveTab(tabId);
-            return;
-        }
-
-        // Solo permitir avanzar al siguiente tab si el actual es válido
-        if (targetIndex === currentIndex + 1 && isTabValid) {
-            setActiveTab(tabId);
-            return;
-        }
-        
-        // Bloquear si intenta saltar o avanzar sin validar el actual
-        if (targetIndex > currentIndex) {
-            toast.warn("Debes completar el paso actual antes de avanzar.", { position: "top-center", autoClose: 2000 });
+        if (currentIndex > 0) {
+            setActiveTab(tabs[currentIndex - 1].id);
         }
     };
 
@@ -168,26 +163,22 @@ export default function FormularioCliente({ nomActividad, planes, onClose }) {
             </style>
             {/* Contenedor principal con estilo moderno: esquinas redondeadas, sombra pronunciada y borde suave */}
             <div className="max-w-lg mx-auto bg-white rounded-2xl shadow-xl border border-gray-100 p-8 transform transition duration-500 hover:shadow-2xl">
-                <h2 className="text-4xl font-extrabold text-[var(--c-primary)] mb-8 text-center tracking-tight">
+                <h2 className="text-4xl font-extrabold text-[var(--c-primary)] mb-4 text-center tracking-tight">
                     Inscripción: {nomActividad}
                 </h2>
-
-                {/* Barra de tabs con estilo mejorado */}
-                <div className="flex overflow-x-auto whitespace-nowrap mb-6 border-b-2 border-gray-200">
-                    {tabs.map((tab) => (
-                        <button
-                            key={tab.id}
-                            onClick={() => handleTabClick(tab.id)}
-                            className={`inline-flex items-center h-12 px-6 text-sm sm:text-base border-b-4 transition duration-300 font-medium whitespace-nowrap
-                                ${activeTab === tab.id
-                                    ? "border-[var(--c-primary)] text-[var(--c-primary)] bg-[var(--c-secondary)]" // Fondo sutil para tab activo
-                                    : "border-transparent text-gray-500 hover:text-[var(--c-primary)] hover:bg-gray-50"
-                                }`}
-                        >
-                            {tab.icon}
-                            {tab.label}
-                        </button>
-                    ))}
+                
+                {/* Indicador de Progreso */}
+                <div className="mb-8">
+                    <p className="text-sm font-semibold text-gray-600 mb-2 text-center flex justify-center items-center space-x-2">
+                        {currentIcon} {/* Ícono del paso actual */}
+                        <span>Paso {currentStep} de {totalSteps}: {currentLabel}</span>
+                    </p>
+                    <div className="w-full bg-gray-200 rounded-full h-2.5">
+                        <div 
+                            className="h-2.5 rounded-full transition-all duration-500 ease-in-out bg-[var(--c-primary)]" 
+                            style={{ width: `${progress}%` }}
+                        ></div>
+                    </div>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -250,7 +241,7 @@ export default function FormularioCliente({ nomActividad, planes, onClose }) {
                         </div>
                     )}
 
-                    {/* Contenido del tab: Condición Física (NUEVO) */}
+                    {/* Contenido del tab: Condición Física */}
                     {activeTab === "condicion" && (
                         <div>
                             <label className="block text-gray-700 font-semibold mb-1">Condición Física (Opcional)</label>
@@ -294,30 +285,40 @@ export default function FormularioCliente({ nomActividad, planes, onClose }) {
                     )}
 
                     {/* Botones de Navegación y Envío */}
-                    <div className="flex justify-between pt-6 border-t border-gray-100">
-                        {/* Botón Cancelar - Estilo secundario */}
-                        <button type="button" onClick={onClose} className="bg-[var(--c-slate)] text-white px-6 py-3 rounded-full shadow-md hover:bg-[var(--c-graydark)] transition duration-300 ease-in-out font-semibold">
-                            Cancelar
-                        </button>
-
-                        {/* Botón Siguiente/Continuar - Estilo primario, con efecto hover */}
-                        {activeTab === "enviar" ? (
-                            <button type="submit" className={`px-8 py-3 rounded-full transition duration-300 ease-in-out font-bold shadow-lg 
-                                ${isTabValid && !isMinor 
-                                    ? "bg-[var(--c-primary)] text-white hover:bg-[var(--c-maroon)] hover:shadow-xl transform hover:scale-[1.02]" 
-                                    : "bg-gray-300 text-gray-500 cursor-not-allowed shadow-inner"
-                                }`} disabled={!isTabValid || isMinor}>
-                                Continuar
-                            </button>
-                        ) : (
-                            <button type="button" onClick={nextTab} className={`px-8 py-3 rounded-full transition duration-300 ease-in-out font-bold shadow-lg 
-                                ${isTabValid && !isMinor 
-                                    ? "bg-[var(--c-primary)] text-white hover:bg-[var(--c-maroon)] hover:shadow-xl transform hover:scale-[1.02]" 
-                                    : "bg-gray-300 text-gray-500 cursor-not-allowed shadow-inner"
-                                }`} disabled={!isTabValid || isMinor}>
-                                Siguiente
-                            </button>
-                        )}
+                    <div className="flex justify-between items-center pt-6 border-t border-gray-100">
+                        {/* Grupo Izquierdo: Cancelar o Anterior */}
+                        <div className="flex space-x-4">
+                            {activeTab === "personal" ? (
+                                <button type="button" onClick={onClose} className="bg-[var(--c-slate)] text-white px-6 py-3 rounded-full shadow-md hover:bg-[var(--c-graydark)] transition duration-300 ease-in-out font-semibold">
+                                    Cancelar
+                                </button>
+                            ) : (
+                                <button type="button" onClick={prevTab} className="bg-gray-200 text-gray-700 px-6 py-3 rounded-full shadow-md hover:bg-gray-300 transition duration-300 ease-in-out font-semibold">
+                                    Anterior
+                                </button>
+                            )}
+                        </div>
+                        
+                        {/* Grupo Derecho: Siguiente / Continuar */}
+                        <div>
+                            {activeTab === "enviar" ? (
+                                <button type="submit" className={`px-8 py-3 rounded-full transition duration-300 ease-in-out font-bold shadow-lg 
+                                    ${isTabValid && !isMinor 
+                                        ? "bg-[var(--c-primary)] text-white hover:bg-[var(--c-maroon)] hover:shadow-xl transform hover:scale-[1.02]" 
+                                        : "bg-gray-300 text-gray-500 cursor-not-allowed shadow-inner"
+                                    }`} disabled={!isTabValid || isMinor}>
+                                    Continuar
+                                </button>
+                            ) : (
+                                <button type="button" onClick={nextTab} className={`px-8 py-3 rounded-full transition duration-300 ease-in-out font-bold shadow-lg 
+                                    ${isTabValid && !isMinor 
+                                        ? "bg-[var(--c-primary)] text-white hover:bg-[var(--c-maroon)] hover:shadow-xl transform hover:scale-[1.02]" 
+                                        : "bg-gray-300 text-gray-500 cursor-not-allowed shadow-inner"
+                                    }`} disabled={!isTabValid || isMinor}>
+                                    Siguiente
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </form>
             </div>
