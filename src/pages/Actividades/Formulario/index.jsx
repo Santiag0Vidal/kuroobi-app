@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-// import { cargarFormulario } from "../../../utils/formulario"; // Importación comentada para resolver el error de compilación
-// Eliminamos useNavigate de react-router-dom para resolver el error de contexto de Router.
+import { useNavigate } from 'react-router-dom';
+import { cargarFormulario } from "../../../utils/formulario"; // <--- ¡Asegúrate de que esta ruta y función sean correctas!
 import { User, Phone, CreditCard, FileText, Send, HeartPulse } from "lucide-react";
 
 // Helper para calcular la edad exacta a partir de una fecha de nacimiento (YYYY-MM-DD)
@@ -20,7 +20,7 @@ const calculateAge = (dateString) => {
 };
 
 export default function FormularioCliente({ nomActividad, planes, onClose }) {
-    // const navigate = useNavigate(); // Eliminado para evitar el error de contexto de Router
+    const navigate = useNavigate();
 
     const [activeTab, setActiveTab] = useState("personal");
     const [formData, setFormData] = useState({
@@ -120,11 +120,10 @@ export default function FormularioCliente({ nomActividad, planes, onClose }) {
              return;
         }
 
-        // cargarFormulario(formData); // Llamada a función externa comentada para evitar error de compilación
+        cargarFormulario(formData); // <--- Llamada a tu lógica de negocio
         toast.success(`${formData.nombre}, debes realizar el pago para registrarte 💪`, { position: "top-center", autoClose: 2000 });
         
-        // [CORRECCIÓN] Se elimina la redirección forzada a '/pago' para evitar la pantalla en blanco
-        // en entornos de prueba sin rutas definidas. La acción se considera completada con el toast.
+        navigate(`/pago`); // <--- Navegación limpia
         
         onClose();
     };
@@ -147,7 +146,8 @@ export default function FormularioCliente({ nomActividad, planes, onClose }) {
 
     return (
         <>
-    
+           
+            {/* Contenedor principal con estilo moderno: esquinas redondeadas, sombra pronunciada y borde suave */}
             <div className="max-w-lg mx-auto bg-white rounded-2xl shadow-xl border border-gray-100 p-8 transform transition duration-500 hover:shadow-2xl">
                 <h2 className="text-4xl font-extrabold text-[var(--c-primary)] mb-4 text-center tracking-tight">
                     Inscripción: {nomActividad}

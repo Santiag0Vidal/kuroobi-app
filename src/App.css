@@ -15,9 +15,6 @@
   --c-brown:    #2c1212;
   --c-graydark: #343434;
   --c-hover:    #f9a826;
- 
-                        --c-secondary: #FEF2F2; /* Rosa muy claro para fondo sutil */
-                        --c-accent: #E53E3E; /* Rojo brillante para énfasis */
-                      
-                      
+  --c-secondary: #FEF2F2;
+  --c-accent: #E53E3E;                                      
 }
