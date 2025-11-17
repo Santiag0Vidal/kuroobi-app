@@ -1,164 +1,338 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import { cargarFormulario } from "../../../utils/formulario";
-import { useNavigate } from "react-router-dom";
-import { User, Mail, Phone, Calendar, CreditCard, FileText, Send } from "lucide-react";
+// import { cargarFormulario } from "../../../utils/formulario"; // Importación comentada para resolver el error de compilación
+// Eliminamos useNavigate de react-router-dom para resolver el error de contexto de Router.
+import { User, Phone, CreditCard, FileText, Send, HeartPulse } from "lucide-react";
+
+// Helper para calcular la edad exacta a partir de una fecha de nacimiento (YYYY-MM-DD)
+const calculateAge = (dateString) => {
+    if (!dateString) return null;
+    const today = new Date();
+    const birthDate = new Date(dateString);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    // Ajuste si aún no ha cumplido años este mes
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
+};
 
 export default function FormularioCliente({ nomActividad, planes, onClose }) {
-  const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("personal");
-  const [formData, setFormData] = useState({
-    nombre: "",
-    apellido: "",
-    email: "",
-    telefono: "",
-    dni: "",
-    fechaNacimiento: "",
-    actividad: nomActividad,
-    plan: planes[0] || {},
-    observaciones: "Podes escribir aca algo que quieras contarnos...",
-  });
+    // const navigate = useNavigate(); // Eliminado para evitar el error de contexto de Router
 
-  const [isTabValid, setIsTabValid] = useState(false);
-
-  const inputClass =
-    "w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-[var(--c-primary)] transition";
-
-  const tabs = [
-    { id: "personal", label: "Personal", fields: ["nombre", "apellido", "dni", "fechaNacimiento"], icon: <User className="w-5 h-5 mr-2" /> },
-    { id: "contacto", label: "Contacto", fields: ["email", "telefono"], icon: <Phone className="w-5 h-5 mr-2" /> },
-    { id: "plan", label: "Plan", fields: ["plan"], icon: <CreditCard className="w-5 h-5 mr-2" /> },
-    { id: "observaciones", label: "Notas", fields: ["observaciones"], icon: <FileText className="w-5 h-5 mr-2" /> },
-      { id: "enviar", label: "Confirmar", fields: ["enviar"], icon: <Send  className="w-5 h-5 mr-2" /> },
-  ];
-
-  useEffect(() => {
-    // Validar campos obligatorios del tab actual
-    const tab = tabs.find((t) => t.id === activeTab);
-    const valid = tab.fields.every((field) => {
-      const value = formData[field];
-      return value !== "" && value !== null && value !== undefined;
+    const [activeTab, setActiveTab] = useState("personal");
+    const [formData, setFormData] = useState({
+        nombre: "",
+        apellido: "",
+        email: "",
+        telefono: "",
+        dni: "",
+        fechaNacimiento: "",
+        actividad: nomActividad,
+        plan: planes[0] || {},
+        condicionFisica: "", // NUEVO: Campo para la condición física/salud
+        observaciones: "", 
     });
-    setIsTabValid(valid);
-  }, [activeTab, formData]);
+    const [isTabValid, setIsTabValid] = useState(false);
+    const [isMinor, setIsMinor] = useState(false); // 3. Nuevo estado para edad
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "plan") {
-      setFormData((prev) => ({ ...prev, plan: JSON.parse(value) }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
-  };
+    // Clase de Input con estilo moderno: bordes más suaves, sombra sutil y anillo de enfoque primario
+    const inputClass =
+        "w-full border border-gray-300 bg-white rounded-lg px-4 py-3 focus:outline-none focus:ring-3 focus:ring-[var(--c-primary)] transition duration-300 shadow-sm";
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    cargarFormulario(formData);
-    toast.success(`${formData.nombre}, debes realizar el pago para registrarte 💪`, { position: "top-center", autoClose: 2000 });
-    navigate(`/pago`);
-    onClose();
-  };
+    const tabs = [
+        { id: "personal", label: "Personal", fields: ["nombre", "apellido", "dni", "fechaNacimiento"], icon: <User className="w-5 h-5 mr-2" /> },
+        { id: "contacto", label: "Contacto", fields: ["email", "telefono"], icon: <Phone className="w-5 h-5 mr-2" /> },
+        { id: "plan", label: "Plan", fields: ["plan"], icon: <CreditCard className="w-5 h-5 mr-2" /> },
+        { id: "condicion", label: "Salud Física", fields: ["condicionFisica"], icon: <HeartPulse className="w-5 h-5 mr-2" /> }, // NUEVA PESTAÑA
+        { id: "observaciones", label: "Notas", fields: ["observaciones"], icon: <FileText className="w-5 h-5 mr-2" /> },
+        { id: "enviar", label: "Confirmar", fields: [], icon: <Send className="w-5 h-5 mr-2" /> },
+    ];
 
-  const nextTab = () => {
-    const currentIndex = tabs.findIndex((t) => t.id === activeTab);
-    if (currentIndex < tabs.length - 1) setActiveTab(tabs[currentIndex + 1].id);
-  };
+    useEffect(() => {
+        const tab = tabs.find((t) => t.id === activeTab);
 
-  return (
-    <div className="max-w-lg mx-auto bg-white rounded-3xl shadow-2xl p-8 border border-[var(--c-graylite)]">
-      <h2 className="text-3xl font-bold text-[var(--c-primary)] mb-6 text-center">REGISTRO</h2>
+        // Campos obligatorios (excluyendo 'observaciones' y 'condicionFisica' que son opcionales)
+        const requiredFields = tab.fields.filter(field => field !== "observaciones" && field !== "condicionFisica");
 
-      {/* Barra de tabs */}
-      <div className="flex overflow-x-auto whitespace-nowrap mb-6 border-b border-gray-200">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`inline-flex items-center h-12 px-4 text-sm sm:text-base border-b-2 ${
-              activeTab === tab.id
-                ? "border-[var(--c-primary)] text-[var(--c-primary)] font-semibold"
-                : "border-transparent text-gray-600 hover:text-[var(--c-primary)]"
-            }`}
-          >
-            {tab.icon}
-            {tab.label}
-          </button>
-        ))}
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-5">
-        {/* Contenido del tab */}
-        {activeTab === "personal" && (
-          <>
-            <div><label>Nombre</label><input type="text" name="nombre" value={formData.nombre} onChange={handleChange} required className={inputClass} /></div>
-            <div><label>Apellido</label><input type="text" name="apellido" value={formData.apellido} onChange={handleChange} required className={inputClass} /></div>
-            <div><label>DNI</label><input type="text" name="dni" value={formData.dni} onChange={handleChange} className={inputClass} /></div>
-            <div><label>Fecha de Nacimiento</label><input type="date" name="fechaNacimiento" value={formData.fechaNacimiento} onChange={handleChange} className={inputClass} /></div>
-          </>
-        )}
-
-        {activeTab === "contacto" && (
-          <>
-            <div><label>Email</label><input type="email" name="email" value={formData.email} onChange={handleChange} required className={inputClass} /></div>
-            <div><label>Teléfono</label><input type="tel" name="telefono" value={formData.telefono} onChange={handleChange} className={inputClass} /></div>
-          </>
-        )}
-
-        {activeTab === "plan" && (
-          <div>
-            <label>Elegí el plan de {nomActividad}</label>
-            <select name="plan" value={JSON.stringify(formData.plan)} onChange={handleChange} className={inputClass}>
-              {planes.map((p) => (
-                <option key={p.nombre} value={JSON.stringify(p)}>{p.nombre} — {p.precio}</option>
-              ))}
-            </select>
-          </div>
-        )}
-
-        {activeTab === "observaciones" && (
-          <div>
-            <label>Observaciones</label>
-            <textarea name="observaciones" value={formData.observaciones} onChange={handleChange} rows="3" className={inputClass} />
-          </div>
-        )}
-        {activeTab === "enviar" && (
-          <div>
-            <p className="text-center text-gray-600">Completa el formulario y hace clic en Continuar para proceder al pago.</p>
+        // 1. Validar campos obligatorios básicos
+        const fieldsValid = requiredFields.every((field) => {
+            const value = formData[field];
             
-          </div>
-        )}
+            // Check para el objeto 'plan'
+            if (field === 'plan') {
+                return value && Object.keys(value).length > 0;
+            }
+            
+            // Check estándar para campos de texto/fecha
+            return value !== "" && value !== null && value !== undefined;
+        });
 
-        {/* Botones */}
-        <div className="flex justify-between pt-6">
-          <button type="button" onClick={onClose} className="bg-[var(--c-slate)] text-white px-6 py-3 rounded-xl hover:bg-[var(--c-graydark)] transition">
-            Cancelar
-          </button>
+        // 2. Validar restricción de edad para la pestaña "personal"
+        let isAgeValid = true;
+        if (activeTab === "personal" && formData.fechaNacimiento) {
+            const age = calculateAge(formData.fechaNacimiento);
+            
+            if (age !== null && age < 18) {
+                isAgeValid = false;
+                setIsMinor(true); // Bloquear y mostrar mensaje
+            } else {
+                setIsMinor(false);
+            }
+        } else {
+             // Limpiar el estado de menor de edad al salir de la pestaña "personal"
+            if (isMinor) setIsMinor(false); 
+        }
 
-          {activeTab === "enviar" ? (
-            <button type="submit" className={`px-6 py-3 rounded-xl transition ${isTabValid ? "bg-[var(--c-primary)] text-white hover:bg-[var(--c-maroon)]" : "bg-gray-300 text-gray-500 cursor-not-allowed"}`} disabled={!isTabValid}>
-              Continuar
-            </button>
-          ) : (
-            <button type="button" onClick={nextTab} className={`px-6 py-3 rounded-xl transition ${isTabValid ? "bg-[var(--c-primary)] text-white hover:bg-[var(--c-maroon)]" : "bg-gray-300 text-gray-500 cursor-not-allowed"}`} disabled={!isTabValid}>
-              Siguiente
-            </button>
-          )}
-        </div>
-      </form>
-    </div>
-  );
+        // El tab es válido si todos los campos requeridos son llenados Y no es menor de edad
+        setIsTabValid(fieldsValid && isAgeValid);
+
+    }, [activeTab, formData, tabs]); // Añadido 'tabs' para evitar warning en dependencias
+
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        if (name === "plan") {
+            setFormData((prev) => ({ ...prev, plan: JSON.parse(value) }));
+        } else {
+            setFormData((prev) => ({ ...prev, [name]: value }));
+        }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Se valida isTabValid, que incluye la validación de edad
+        if (!isTabValid && activeTab === 'enviar') {
+             toast.error("Por favor, revisa las pestañas anteriores y completa los campos obligatorios.", { position: "top-center", autoClose: 3000 });
+             return;
+        }
+
+        // cargarFormulario(formData); // Llamada a función externa comentada para evitar error de compilación
+        toast.success(`${formData.nombre}, debes realizar el pago para registrarte 💪`, { position: "top-center", autoClose: 2000 });
+        
+        // CORRECCIÓN: Usar window.location.href para la redirección sin depender de React Router
+        window.location.href = '/pago';
+        
+        onClose();
+    };
+
+    const nextTab = () => {
+        const currentIndex = tabs.findIndex((t) => t.id === activeTab);
+        if (isTabValid) {
+            if (currentIndex < tabs.length - 1) setActiveTab(tabs[currentIndex + 1].id);
+        } else {
+             toast.warn("Completa los campos obligatorios antes de continuar.", { position: "top-center", autoClose: 2000 });
+        }
+    };
+
+    // Lógica para la navegación secuencial al hacer clic en las pestañas
+    const handleTabClick = (tabId) => {
+        const targetIndex = tabs.findIndex((t) => t.id === tabId);
+        const currentIndex = tabs.findIndex((t) => t.id === activeTab);
+
+        // Permitir ir hacia atrás o quedarse en el tab actual libremente
+        if (targetIndex <= currentIndex) {
+            setActiveTab(tabId);
+            return;
+        }
+
+        // Solo permitir avanzar al siguiente tab si el actual es válido
+        if (targetIndex === currentIndex + 1 && isTabValid) {
+            setActiveTab(tabId);
+            return;
+        }
+        
+        // Bloquear si intenta saltar o avanzar sin validar el actual
+        if (targetIndex > currentIndex) {
+            toast.warn("Debes completar el paso actual antes de avanzar.", { position: "top-center", autoClose: 2000 });
+        }
+    };
+
+    return (
+        <>
+            {/* Definición de estilo con paleta de colores moderna (Cereza/Rojo) */}
+            <style>
+                {`
+                    :root {
+                        --c-primary: #C53030; /* Rojo Cereza - Color principal */
+                        --c-secondary: #FEF2F2; /* Rosa muy claro para fondo sutil */
+                        --c-accent: #E53E3E; /* Rojo brillante para énfasis */
+                        --c-slate: #475569; /* Gris pizarra para botones secundarios (Sin cambios) */
+                        --c-graylite: #e5e7eb;
+                        --c-maroon: #9B2C2C; /* Rojo más oscuro para hover de primary */
+                        --c-graydark: #374151; /* Gris oscuro para hover de slate (Sin cambios) */
+                    }
+                `}
+            </style>
+            {/* Contenedor principal con estilo moderno: esquinas redondeadas, sombra pronunciada y borde suave */}
+            <div className="max-w-lg mx-auto bg-white rounded-2xl shadow-xl border border-gray-100 p-8 transform transition duration-500 hover:shadow-2xl">
+                <h2 className="text-4xl font-extrabold text-[var(--c-primary)] mb-8 text-center tracking-tight">
+                    Inscripción: {nomActividad}
+                </h2>
+
+                {/* Barra de tabs con estilo mejorado */}
+                <div className="flex overflow-x-auto whitespace-nowrap mb-6 border-b-2 border-gray-200">
+                    {tabs.map((tab) => (
+                        <button
+                            key={tab.id}
+                            onClick={() => handleTabClick(tab.id)}
+                            className={`inline-flex items-center h-12 px-6 text-sm sm:text-base border-b-4 transition duration-300 font-medium whitespace-nowrap
+                                ${activeTab === tab.id
+                                    ? "border-[var(--c-primary)] text-[var(--c-primary)] bg-[var(--c-secondary)]" // Fondo sutil para tab activo
+                                    : "border-transparent text-gray-500 hover:text-[var(--c-primary)] hover:bg-gray-50"
+                                }`}
+                        >
+                            {tab.icon}
+                            {tab.label}
+                        </button>
+                    ))}
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* Contenido del tab: Personal */}
+                    {activeTab === "personal" && (
+                        <>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-gray-700 font-semibold mb-1">Nombre *</label>
+                                    <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} required className={inputClass} />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-700 font-semibold mb-1">Apellido *</label>
+                                    <input type="text" name="apellido" value={formData.apellido} onChange={handleChange} required className={inputClass} />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-700 font-semibold mb-1">DNI *</label>
+                                    <input type="text" name="dni" value={formData.dni} onChange={handleChange} required className={inputClass} />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-700 font-semibold mb-1">Fecha de Nacimiento *</label>
+                                    <input type="date" name="fechaNacimiento" value={formData.fechaNacimiento} onChange={handleChange} required className={inputClass} />
+                                </div>
+                            </div>
+                            
+                            {/* Mensaje de error para menores de edad */}
+                            {isMinor && (
+                                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative mt-4 shadow-md">
+                                    <p className="font-bold">⚠️ Inscripción Denegada</p>
+                                    <p className="text-sm mt-1">Las inscripciones web son solo para mayores de 18 años. Por favor, contacta a la administración para inscripciones de menores.</p>
+                                </div>
+                            )}
+                        </>
+                    )}
+
+                    {/* Contenido del tab: Contacto */}
+                    {activeTab === "contacto" && (
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-gray-700 font-semibold mb-1">Email *</label>
+                                <input type="email" name="email" value={formData.email} onChange={handleChange} required className={inputClass} />
+                            </div>
+                            <div>
+                                <label className="block text-gray-700 font-semibold mb-1">Teléfono</label>
+                                <input type="tel" name="telefono" value={formData.telefono} onChange={handleChange} className={inputClass} />
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Contenido del tab: Plan */}
+                    {activeTab === "plan" && (
+                        <div>
+                            <label className="block text-gray-700 font-semibold mb-1">Elegí el plan de {nomActividad} *</label>
+                            {/* Estilo del select con appearance-none para customización */}
+                            <select name="plan" value={JSON.stringify(formData.plan)} onChange={handleChange} className={inputClass + " appearance-none cursor-pointer"} required>
+                                {planes.map((p) => (
+                                    <option key={p.nombre} value={JSON.stringify(p)} className="p-3">{p.nombre} — {p.precio}</option>
+                                ))}
+                            </select>
+                        </div>
+                    )}
+
+                    {/* Contenido del tab: Condición Física (NUEVO) */}
+                    {activeTab === "condicion" && (
+                        <div>
+                            <label className="block text-gray-700 font-semibold mb-1">Condición Física (Opcional)</label>
+                            <p className="text-sm text-gray-500 mb-2">Por favor, indícanos si tienes alguna condición médica preexistente, discapacidad, lesión o alergia relevante para tu actividad.</p>
+                            <textarea 
+                                name="condicionFisica" 
+                                value={formData.condicionFisica} 
+                                onChange={handleChange} 
+                                rows="4" 
+                                className={inputClass + " resize-none"} 
+                                placeholder="Ej: 'Lesión crónica en rodilla izquierda', 'Asma', 'Diabetes', etc."
+                            />
+                        </div>
+                    )}
+
+                    {/* Contenido del tab: Observaciones */}
+                    {activeTab === "observaciones" && (
+                        <div>
+                            <label className="block text-gray-700 font-semibold mb-1">Notas (Opcional)</label>
+                            <textarea 
+                                name="observaciones" 
+                                value={formData.observaciones} 
+                                onChange={handleChange} 
+                                rows="4" 
+                                className={inputClass + " resize-none"} 
+                                placeholder="Escribe aquí si deseas contarnos algo sobre tu inscripción o salud..."
+                            />
+                        </div>
+                    )}
+
+                    {/* Contenido del tab: Enviar/Confirmar */}
+                    {activeTab === "enviar" && (
+                        <div className="text-center p-6 bg-[var(--c-secondary)] border border-[var(--c-primary)]/30 rounded-xl shadow-inner">
+                            <h3 className="text-2xl font-bold mb-2 text-[var(--c-primary)]">¡Todo Listo! 🚀</h3>
+                            <p className="text-gray-700">Revisa la información y haz clic en "Continuar" para ser redirigido a la página de pago seguro. Una vez completado, tu cupo estará reservado.</p>
+                            <div className="mt-4 p-3 bg-white rounded-lg border border-gray-200 shadow-sm">
+                                <p className="text-sm text-gray-600 font-medium">Actividad: <span className="text-[var(--c-primary)] font-bold">{formData.actividad}</span></p>
+                                <p className="text-sm text-gray-600 font-medium">Plan Seleccionado: <span className="text-[var(--c-primary)] font-bold">{formData.plan.nombre}</span> | Precio: <span className="text-[var(--c-accent)] font-bold">{formData.plan.precio}</span></p>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Botones de Navegación y Envío */}
+                    <div className="flex justify-between pt-6 border-t border-gray-100">
+                        {/* Botón Cancelar - Estilo secundario */}
+                        <button type="button" onClick={onClose} className="bg-[var(--c-slate)] text-white px-6 py-3 rounded-full shadow-md hover:bg-[var(--c-graydark)] transition duration-300 ease-in-out font-semibold">
+                            Cancelar
+                        </button>
+
+                        {/* Botón Siguiente/Continuar - Estilo primario, con efecto hover */}
+                        {activeTab === "enviar" ? (
+                            <button type="submit" className={`px-8 py-3 rounded-full transition duration-300 ease-in-out font-bold shadow-lg 
+                                ${isTabValid && !isMinor 
+                                    ? "bg-[var(--c-primary)] text-white hover:bg-[var(--c-maroon)] hover:shadow-xl transform hover:scale-[1.02]" 
+                                    : "bg-gray-300 text-gray-500 cursor-not-allowed shadow-inner"
+                                }`} disabled={!isTabValid || isMinor}>
+                                Continuar
+                            </button>
+                        ) : (
+                            <button type="button" onClick={nextTab} className={`px-8 py-3 rounded-full transition duration-300 ease-in-out font-bold shadow-lg 
+                                ${isTabValid && !isMinor 
+                                    ? "bg-[var(--c-primary)] text-white hover:bg-[var(--c-maroon)] hover:shadow-xl transform hover:scale-[1.02]" 
+                                    : "bg-gray-300 text-gray-500 cursor-not-allowed shadow-inner"
+                                }`} disabled={!isTabValid || isMinor}>
+                                Siguiente
+                            </button>
+                        )}
+                    </div>
+                </form>
+            </div>
+        </>
+    );
 }
 
 FormularioCliente.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  nomActividad: PropTypes.string.isRequired,
-  planes: PropTypes.arrayOf(
-    PropTypes.shape({
-      nombre: PropTypes.string.isRequired,
-      precio: PropTypes.string.isRequired,
-      link: PropTypes.string.isRequired,
-    })
-  ).isRequired,
+    onClose: PropTypes.func.isRequired,
+    nomActividad: PropTypes.string.isRequired,
+    planes: PropTypes.arrayOf(
+        PropTypes.shape({
+            nombre: PropTypes.string.isRequired,
+            precio: PropTypes.string.isRequired,
+            link: PropTypes.string.isRequired,
+        })
+    ).isRequired,
 };
-

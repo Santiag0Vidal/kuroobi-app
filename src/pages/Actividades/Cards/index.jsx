@@ -105,19 +105,16 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
         </motion.div>
       )}
 
-      {/* Modal con formulario */}
+       {/* Modal con formulario */}
       {openFormulario && (
         <motion.div
-          // ESTE DEBE SER EL OVERLAY DE PANTALLA COMPLETA Y EL FONDO OSCURO
-          className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4 backdrop-blur-sm" // Opacidad del fondo aumentada a /70
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 backdrop-blur-sm"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
           <motion.div
-            // ESTE CONTENEDOR ES EL QUE ENCIERRA EL ModalFormulario y le da el estilo de 'vidrio'
-            className="bg-white/30 backdrop-blur-md text-white rounded-2xl p-6 max-w-md text-center shadow-2xl" // Opacidad del contenido aumentada a /30
             initial={{ opacity: 0, scale: 0.9, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 30 }}
@@ -142,3 +139,5 @@ CardActividades.propTypes = {
 };
 
 export default CardActividades;
+
+
