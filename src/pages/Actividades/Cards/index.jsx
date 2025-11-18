@@ -71,7 +71,7 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
           exit={{ opacity: 0 }}
         >
           <motion.div
-            className="bg-white/35 backdrop-blur-md text-white rounded-2xl p-6 max-w-md text-center shadow-2xl" 
+            className="bg-white/35 backdrop-blur-md text-white rounded-2xl p-6 max-w-md text-center shadow-2xl"
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 30 }}
           >
@@ -85,7 +85,10 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
             {/* <------------------------------------> */}
 
             <h2 className="text-2xl font-bold mb-4">{titulo}</h2>
-            <p className="mb-6">{descripcionActi}</p>
+            <p className="mb-6 texto-multilinea alineado-izquierda">
+              {descripcionActi}
+            </p>
+
             <button
               className="bg-yellow-400 text-black px-6 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition"
               onClick={() => {
@@ -105,7 +108,7 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
         </motion.div>
       )}
 
-       {/* Modal con formulario */}
+      {/* Modal con formulario */}
       {openFormulario && (
         <motion.div
           className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 backdrop-blur-sm"

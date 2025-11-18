@@ -18,3 +18,11 @@
   --c-secondary: #FEF2F2;
   --c-accent: #E53E3E;                                      
 }
+
+.texto-multilinea {
+  white-space: pre-line;
+}
+
+.alineado-izquierda {
+  text-align: left;
+}

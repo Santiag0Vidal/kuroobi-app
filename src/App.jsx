@@ -8,7 +8,7 @@ function App() {
       <main className="pt-20 bg-[var(--c-ink)]">
         <C.Navbar />
         <P.Inicio />
-        <P.Sede />
+        
         <C.WhappBoot />
         <P.Actividades />
         <P.HorariosGym />
@@ -20,6 +20,7 @@ function App() {
         <P.Novedades />
        */}
         <P.Nosotros />
+        <P.Sede />
         <P.Contacto />
         <C.Fotter />
       </main>

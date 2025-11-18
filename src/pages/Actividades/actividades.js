@@ -1,7 +1,7 @@
 const actividades = [
   {
     nombre: "Musculacion",
-    descripcionActi: "Entrena fuerza y resistencia muscular con rutinas guiadas. Ideal para tonificar y aumentar masa muscular.",
+    descripcionActi: "Entrena fuerza y resistencia muscular con rutinas guiadas por nuestros profesores especializados, previene lesiones con ejercicios adaptados a ti. Ideal para tonificar y aumentar masa muscular.",
     imagenModal: "/Siluetas/musculacion.png",
     planes: [
       {
@@ -29,7 +29,7 @@ const actividades = [
   },
   {
     nombre: "Karate",
-    descripcionActi: "Aprende técnicas de Karate para defensa personal, disciplina y coordinación.",
+    descripcionActi: "Desarrolla disciplina, autocontrol y fortaleza en nuestras clases de karate de adolescentes y adultos. Aprende técnicas de Karate para defensa personal, encuentra tu mayor rendimiento personal tanto en lo físico como mental. \nCambia tu forma de pensar y actuar en la vida.",
     imagenModal: "/Siluetas/karate.png", 
     planes: [
       {
@@ -50,7 +50,7 @@ const actividades = [
   },
   {
     nombre: "Karate Niños",
-    descripcionActi: "Clases de Karate para niños, fomentando disciplina, coordinación y confianza.",
+    descripcionActi: "Descubrí la disciplina, la confianza y la diversión, en nuestras clases de karate para los más chicos, fomentando valores y habilidades motrices como coordinación y destreza.",
     imagenModal: "/Siluetas/karateninios.png",
     planes: [
       {
@@ -71,7 +71,7 @@ const actividades = [
   },
   {
     nombre: "GAP",
-    descripcionActi: "Entrenamiento específico de Glúteos, Abdominales y Piernas para tonificar y fortalecer.",
+    descripcionActi: "(Glúteos, abdomen y piernas) \nTonifica y fortalece glúteos, abdomen y piernas con nuestras clases guiadas y específicas, con resultados visibles.",
     imagenModal: "/Siluetas/GAP.png",
     planes: [
       {
@@ -92,7 +92,7 @@ const actividades = [
   },
   {
     nombre: "Funcional",
-    descripcionActi: "Entrenamiento integral con ejercicios funcionales para fuerza, resistencia y coordinación.",
+    descripcionActi: "Entrenamiento integral con ejercicios que te preparan para la vida diaria, mejorando la fuerza, resistencia y coordinación.",
     imagenModal: "/Siluetas/funcional.png", 
     planes: [
       {
@@ -113,7 +113,7 @@ const actividades = [
   },
   {
     nombre: "Stretching",
-    descripcionActi: "Rutinas de estiramiento para mejorar flexibilidad, postura y recuperación muscular.",
+    descripcionActi: "Aliviana tensiones, y mejora tu movilidad con nuestras clases de streching con  Rutinas de estiramiento para mejorar flexibilidad, postura y recuperación muscular, perfectas para complementar cualquier actividad.",
     imagenModal: "/Siluetas/STRETCHING.png",
     planes: [
       {
@@ -134,7 +134,7 @@ const actividades = [
   },
   {
     nombre: "Yoga",
-    descripcionActi: "Práctica de Yoga para mejorar flexibilidad, fuerza, respiración y equilibrio mental.",
+    descripcionActi: "Equilibrio, cuerpo y mente con nuestras clases de Yoga, ideales para reducir el estrés, mejorar flexibilidad, fuerza y respiración. ",
     imagenModal: "/Siluetas/yoga.png", 
     planes: [
       {
@@ -155,7 +155,7 @@ const actividades = [
   },
   {
     nombre: "Indoor",
-    descripcionActi: "Clases de Indoor Cycling para mejorar resistencia cardiovascular y quema de calorías.",
+    descripcionActi: "Activa tu energía, con nuestras clases de indoor Cycling, un entrenamiento dinámico y divertido para mejorar resistencia cardiovascular y quema de calorías.",
     imagenModal: "/Siluetas/indoor.png", 
     planes: [
       {
@@ -176,7 +176,7 @@ const actividades = [
   },
   {
     nombre: "Full",
-    descripcionActi: "Acceder a todas las disciplicass que quieras, karate, yoga, musculacion entre otras",
+    descripcionActi: "Disfruta de acceso ilimitado a todas nuestras actividades, incluyendo musculación todos los días, para lograr una experiencia integral y completa.",
     imagenModal: "/assets/imagenes/full-modal.jpg",
     planes: [
       {
