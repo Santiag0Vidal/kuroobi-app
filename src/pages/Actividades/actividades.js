@@ -177,7 +177,7 @@ const actividades = [
   {
     nombre: "Full",
     descripcionActi: "Disfruta de acceso ilimitado a todas nuestras actividades, incluyendo musculación todos los días, para lograr una experiencia integral y completa.",
-    imagenModal: "/assets/imagenes/full-modal.jpg",
+      imagenModal: "/Siluetas/fullpass.png", 
     planes: [
       {
         nombre: "Full pass",
