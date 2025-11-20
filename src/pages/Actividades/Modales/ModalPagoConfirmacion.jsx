@@ -6,10 +6,13 @@ import ModalGenerarMsj from "./ModalGeneralMsj";
 export default function ModalPagoConfirmacion({ plan, cliente, setOpen }) {
   const [openModal, setOpenModal] = useState(false);
 
+  // Nuevo estado para controlar el flujo
+  const [pagoRealizado, setPagoRealizado] = useState(false);
+
   const handlePagar = () => {
     if (plan?.link) {
       window.open(plan.link, "_blank");
-      setOpen(false);
+      setPagoRealizado(true); // Cambia el flujo
     }
   };
 
@@ -27,18 +30,19 @@ export default function ModalPagoConfirmacion({ plan, cliente, setOpen }) {
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
           <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full max-h-[90vh] flex flex-col overflow-hidden animate-fadeIn">
-            {/* Contenido scrollable */}
+
+            {/* Contenido */}
             <div className="p-6 overflow-y-auto flex-1 space-y-6">
               <h2 className="text-3xl font-bold text-blue-600 flex items-center justify-center gap-3">
                 <CreditCard className="w-6 h-6" />
-                Confirma tu pago 
+                Confirmá tu pago
               </h2>
 
-              {/* Información del plan */}
-              <div className="bg-blue-50 p-4 rounded-xl border-l-4 border-blue-400 text-left space-y-2">
+              {/* Info del plan */}
+              <div className="bg-blue-50 p-4 rounded-xl border-l-4 border-blue-400 space-y-2">
                 <p>
-                  1️⃣ Vas a completar tu compra del plan{" "}
-                  <strong>{plan?.nombre}</strong> de{" "}
+                  1️⃣ Vas a completar el pago del plan{" "}
+                  <strong>{plan?.nombre}</strong> para{" "}
                   <strong>{cliente?.actividad}</strong>.
                 </p>
                 <p>
@@ -46,59 +50,78 @@ export default function ModalPagoConfirmacion({ plan, cliente, setOpen }) {
                   <strong className="text-green-600">{plan?.precio}</strong>
                 </p>
                 <p className="text-sm text-gray-500">
-                  Si tienes dudas, consulta antes de efectuar el pago.
+                  Si tenés dudas consultá antes de pagar.
                 </p>
               </div>
 
-              {/* Instrucciones para WhatsApp */}
-              <div className="bg-green-50 p-4 rounded-xl border-l-4 border-green-400 text-left space-y-2">
+              {/* Explicación del flujo */}
+              <div className="bg-green-50 p-4 rounded-xl border-l-4 border-green-400 space-y-2">
                 <p>
-                  2️⃣ Una vez realizado el pago, haz clic en el botón verde para
-                  enviar tu comprobante y datos al equipo de recepción.
+                  2️⃣ Cuando hagas clic en <strong>Pagar ahora</strong>,
+                  se abrirá la plataforma de pago.
+                </p>
+                <p>
+                  3️⃣ Una vez realizado el pago, se habilitará el botón verde
+                  para que puedas enviar tu comprobante y tus datos.
                 </p>
                 <p className="text-sm text-gray-600 flex items-center gap-2">
                   <MessageSquare className="w-5 h-5 text-green-500" />
-                  Confirmar tu compra y enviarnos el comprobante.
+                  Nuestro equipo confirmará tu compra cuando recibamos tu mensaje.
                 </p>
               </div>
-
-              <p className="text-sm text-gray-500 mt-2 text-center">
-                Nuestro equipo confirmará tu compra en cuanto recibamos tu
-                comprobante ✅
-              </p>
             </div>
 
-            {/* Botones siempre visibles */}
+            {/* Botones inferiores */}
             <div className="p-6 flex flex-col gap-3 border-t border-gray-200">
+
+              {/* CANCELAR */}
               <button
-                onClick={() => setOpen(false)}
-                className="w-full py-3 px-4 rounded-2xl bg-gray-300 text-gray-700 font-semibold hover:bg-gray-200 transition text-lg"
+                onClick={() => !pagoRealizado && setOpen(false)}
+                disabled={pagoRealizado}
+                className={`w-full py-3 px-4 rounded-2xl font-semibold text-lg transition
+                  ${
+                    pagoRealizado
+                      ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                      : "bg-gray-300 text-gray-700 hover:bg-gray-200"
+                  }`}
               >
                 Cancelar
               </button>
 
+              {/* PAGAR */}
               <button
-                onClick={() => { handlePagar(); setOpen(true); }}
-                className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-2xl font-semibold text-lg transition shadow-lg ${
-                  plan?.link
-                    ? "bg-blue-600 text-white hover:bg-blue-700"
-                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                }`}
+                onClick={handlePagar}
+                disabled={pagoRealizado || !plan?.link}
+                className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-2xl font-semibold text-lg shadow-lg transition
+                  ${
+                    pagoRealizado
+                      ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                      : plan?.link
+                      ? "bg-blue-600 text-white hover:bg-blue-700"
+                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  }`}
               >
                 <CreditCard className="w-5 h-5" />
                 Pagar ahora
               </button>
 
+              {/* ENVIAR MENSAJE */}
               <button
-                onClick={() => setOpenModal(true)}
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-2xl font-semibold text-white transition shadow-lg bg-green-600 hover:bg-green-700 text-lg"
+                onClick={() => pagoRealizado && setOpenModal(true)}
+                disabled={!pagoRealizado}
+                className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-2xl font-semibold text-lg shadow-lg transition
+                  ${
+                    pagoRealizado
+                      ? "bg-green-600 text-white hover:bg-green-700"
+                      : "bg-green-200 text-green-400 cursor-not-allowed"
+                  }`}
               >
-                <MessageSquare className="w-5 h-5 text-green-500" />
+                <MessageSquare className="w-5 h-5" />
                 Enviar comprobante y datos
               </button>
             </div>
 
-            {/* Modal de enviar mensaje */}
+            {/* Modal WhatsApp */}
             {openModal && <ModalGenerarMsj setOpen={setOpenModal} />}
           </div>
         </div>

@@ -33,59 +33,119 @@ export default function FormularioCliente({ nomActividad, planes, onClose }) {
         actividad: nomActividad,
         plan: planes[0] || {},
         condicionFisica: "", // Campo para la condición física/salud
-        observaciones: "", 
+        observaciones: "",
     });
+
+    // Estado para errores por campo
+    const [errors, setErrors] = useState({});
     const [isTabValid, setIsTabValid] = useState(false);
     const [isMinor, setIsMinor] = useState(false); // Nuevo estado para edad
 
-    // Clase de Input con estilo moderno: bordes más suaves, sombra sutil y anillo de enfoque primario
-    const inputClass =
-        "w-full border border-gray-300 bg-white rounded-lg px-4 py-3 focus:outline-none focus:ring-3 focus:ring-[var(--c-primary)] transition duration-300 shadow-sm";
+    // Clase base de Input (no la toqué, la uso como base)
+    const inputBaseClass =
+        "w-full border bg-white rounded-lg px-4 py-3 focus:outline-none focus:ring-3 focus:ring-[var(--c-primary)] transition duration-300 shadow-sm";
+
+    // Clase que aplico cuando hay error
+    const errorClass = "border-red-500 ring-2 ring-red-100";
+
+    const inputClassFor = (field) => {
+        return `${inputBaseClass} ${errors[field] ? errorClass : "border-gray-300"}`;
+    };
 
     const tabs = [
         { id: "personal", label: "Personal", fields: ["nombre", "apellido", "dni", "fechaNacimiento"], icon: <User className="w-5 h-5" /> },
         { id: "contacto", label: "Contacto", fields: ["email", "telefono"], icon: <Phone className="w-5 h-5" /> },
         { id: "plan", label: "Plan", fields: ["plan"], icon: <CreditCard className="w-5 h-5" /> },
-        { id: "condicion", label: "Salud Física", fields: ["condicionFisica"], icon: <HeartPulse className="w-5 h-5" /> }, 
+        { id: "condicion", label: "Salud Física", fields: ["condicionFisica"], icon: <HeartPulse className="w-5 h-5" /> },
         { id: "observaciones", label: "Notas", fields: ["observaciones"], icon: <FileText className="w-5 h-5" /> },
-        { id: "enviar", label: "Confirmar", fields: [], icon: <Send className="w-5 h-5" /> },
+        { id: "enviar", label: "Confirmar", fields: ["enviar"], icon: <Send className="w-5 h-5" /> },
     ];
 
     const totalSteps = tabs.length;
     const currentIndex = tabs.findIndex((t) => t.id === activeTab);
     const currentStep = currentIndex + 1;
     const progress = (currentStep / totalSteps) * 100;
-    
+
     // Obtener el objeto del tab activo para extraer el label y el icono
     const activeTabObj = tabs.find(t => t.id === activeTab);
     const currentLabel = activeTabObj?.label;
     const currentIcon = activeTabObj?.icon;
 
+    // Validador por campo (devuelve mensaje de error o "" si ok)
+    const validateFieldMessage = (name, value) => {
+        if (name === "nombre" || name === "apellido") {
+            if (!value || value.trim() === "") return "Este campo es obligatorio.";
+            if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(value)) return "Solo se permiten letras y espacios.";
+            return "";
+        }
 
+        if (name === "email") {
+            if (!value || value.trim() === "") return "El email es obligatorio.";
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(value)) return "Ingresa un email válido.";
+            return "";
+        }
+
+        if (name === "dni") {
+            if (!value || value.trim() === "") return "El DNI es obligatorio.";
+            if (!/^\d+$/.test(value)) return "El DNI debe contener solo números.";
+            if (value.length < 7 || value.length > 8) return "El DNI debe tener 7 u 8 dígitos.";
+            return "";
+        }
+
+        if (name === "telefono") {
+            // teléfono opcional en tu componente; validar solo si hay algo
+            if (!value) return "";
+            if (!/^\d+$/.test(value)) return "El teléfono debe contener solo números.";
+            if (value.length < 8 || value.length > 15) return "Número inválido. Mínimo 8 y máximo 15 dígitos.";
+            return "";
+        }
+
+        // para otros campos opcionales
+        return "";
+    };
+
+    // useEffect que valida el tab completo (habilita/deshabilita Siguiente/Enviar)
     useEffect(() => {
         const tab = tabs.find((t) => t.id === activeTab);
 
         // Campos obligatorios (excluyendo 'observaciones' y 'condicionFisica' que son opcionales)
         const requiredFields = tab.fields.filter(field => field !== "observaciones" && field !== "condicionFisica");
 
-        // 1. Validar campos obligatorios básicos
-        const fieldsValid = requiredFields.every((field) => {
+        // 1. Validar campos obligatorios básicos y errores por campo
+        let localErrors = { ...errors };
+        let allFilledAndValid = requiredFields.every((field) => {
             const value = formData[field];
-            
+
             // Check para el objeto 'plan'
             if (field === 'plan') {
-                return value && Object.keys(value).length > 0;
+                if (!value || Object.keys(value).length === 0) {
+                    localErrors.plan = "Seleccioná un plan.";
+                    return false;
+                } else {
+                    delete localErrors.plan;
+                    return true;
+                }
             }
-            
-            // Check estándar para campos de texto/fecha
-            return value !== "" && value !== null && value !== undefined;
+
+            // Validación específica por campo
+            const msg = validateFieldMessage(field, value);
+            if (msg) {
+                localErrors[field] = msg;
+                return false;
+            } else {
+                delete localErrors[field];
+                return true;
+            }
         });
+
+        setErrors(localErrors);
 
         // 2. Validar restricción de edad para la pestaña "personal"
         let isAgeValid = true;
         if (activeTab === "personal" && formData.fechaNacimiento) {
             const age = calculateAge(formData.fechaNacimiento);
-            
+
             if (age !== null && age < 18) {
                 isAgeValid = false;
                 setIsMinor(true); // Bloquear y mostrar mensaje
@@ -93,23 +153,61 @@ export default function FormularioCliente({ nomActividad, planes, onClose }) {
                 setIsMinor(false);
             }
         } else {
-             // Limpiar el estado de menor de edad al salir de la pestaña "personal"
-            if (isMinor) setIsMinor(false); 
+            // Limpiar el estado de menor de edad al salir de la pestaña "personal"
+            if (isMinor) setIsMinor(false);
         }
 
         // El tab es válido si todos los campos requeridos son llenados Y no es menor de edad
-        setIsTabValid(fieldsValid && isAgeValid);
+        setIsTabValid(allFilledAndValid && isAgeValid);
 
-    }, [activeTab, formData, tabs]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activeTab, formData]); // errors se maneja dentro
 
-
+    // handleChange: setea valor y valida campo en vivo
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if (name === "plan") {
-            setFormData((prev) => ({ ...prev, plan: JSON.parse(value) }));
-        } else {
-            setFormData((prev) => ({ ...prev, [name]: value }));
+
+        // reglas para bloqueo de entrada (prevención)
+        if ((name === "nombre" || name === "apellido")) {
+            // permitir borrar también
+            if (value && !/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/.test(value)) return;
         }
+
+        if (name === "dni") {
+            // aceptar solo dígitos, prevenir pegados con letras
+            if (value && !/^\d*$/.test(value)) return;
+            // limitar a 8
+            if (value.length > 8) return;
+        }
+
+        if (name === "telefono") {
+            if (value && !/^\d*$/.test(value)) return;
+            // limitar a 15 (permite celulares internacionales si se desea), UI tiene max 10 si lo prefieres
+            if (value.length > 15) return;
+        }
+
+        // Plan como objeto parseado
+        if (name === "plan") {
+            try {
+                const parsed = JSON.parse(value);
+                setFormData(prev => ({ ...prev, plan: parsed }));
+            } catch (err) {
+                // no actualizar si llega mal
+            }
+            return;
+        }
+
+        // Actualizo formData
+        setFormData(prev => ({ ...prev, [name]: value }));
+
+        // Validación en vivo: actualizar errors para ese campo
+        const msg = validateFieldMessage(name, value);
+        setErrors(prev => {
+            const copy = { ...prev };
+            if (msg) copy[name] = msg;
+            else delete copy[name];
+            return copy;
+        });
     };
 
     const handleSubmit = (e) => {
@@ -122,9 +220,9 @@ export default function FormularioCliente({ nomActividad, planes, onClose }) {
 
         cargarFormulario(formData); // <--- Llamada a tu lógica de negocio
         toast.success(`${formData.nombre}, debes realizar el pago para registrarte 💪`, { position: "top-center", autoClose: 2000 });
-        
+
         navigate(`/pago`); // <--- Navegación limpia
-        
+
         onClose();
     };
 
@@ -174,19 +272,67 @@ export default function FormularioCliente({ nomActividad, planes, onClose }) {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-gray-700 font-semibold mb-1">Nombre *</label>
-                                    <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} required className={inputClass} />
+                                    <input 
+                                        type="text" 
+                                        name="nombre" 
+                                        value={formData.nombre} 
+                                        onChange={handleChange} 
+                                        required 
+                                        className={inputClassFor("nombre")} 
+                                        autoComplete="off"
+                                    />
+                                    {errors.nombre && (
+                                        <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg mt-2 text-sm shadow-sm">
+                                            {errors.nombre}
+                                        </div>
+                                    )}
                                 </div>
                                 <div>
                                     <label className="block text-gray-700 font-semibold mb-1">Apellido *</label>
-                                    <input type="text" name="apellido" value={formData.apellido} onChange={handleChange} required className={inputClass} />
+                                    <input 
+                                        type="text" 
+                                        name="apellido" 
+                                        value={formData.apellido} 
+                                        onChange={handleChange} 
+                                        required 
+                                        className={inputClassFor("apellido")} 
+                                        autoComplete="off"
+                                    />
+                                    {errors.apellido && (
+                                        <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg mt-2 text-sm shadow-sm">
+                                            {errors.apellido}
+                                        </div>
+                                    )}
                                 </div>
                                 <div>
                                     <label className="block text-gray-700 font-semibold mb-1">DNI *</label>
-                                    <input type="text" name="dni" value={formData.dni} onChange={handleChange} required className={inputClass} />
+                                    <input 
+                                        type="text" 
+                                        name="dni" 
+                                        value={formData.dni} 
+                                        onChange={handleChange} 
+                                        required 
+                                        className={inputClassFor("dni")} 
+                                        maxLength={8}
+                                        inputMode="numeric"
+                                        autoComplete="off"
+                                    />
+                                    {errors.dni && (
+                                        <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg mt-2 text-sm shadow-sm">
+                                            {errors.dni}
+                                        </div>
+                                    )}
                                 </div>
                                 <div>
                                     <label className="block text-gray-700 font-semibold mb-1">Fecha de Nacimiento *</label>
-                                    <input type="date" name="fechaNacimiento" value={formData.fechaNacimiento} onChange={handleChange} required className={inputClass} />
+                                    <input 
+                                        type="date" 
+                                        name="fechaNacimiento" 
+                                        value={formData.fechaNacimiento} 
+                                        onChange={handleChange} 
+                                        required 
+                                        className={inputClassFor("fechaNacimiento")} 
+                                    />
                                 </div>
                             </div>
                             
@@ -205,11 +351,38 @@ export default function FormularioCliente({ nomActividad, planes, onClose }) {
                         <div className="space-y-4">
                             <div>
                                 <label className="block text-gray-700 font-semibold mb-1">Email *</label>
-                                <input type="email" name="email" value={formData.email} onChange={handleChange} required className={inputClass} />
+                                <input 
+                                    type="email" 
+                                    name="email" 
+                                    value={formData.email} 
+                                    onChange={handleChange} 
+                                    required 
+                                    className={inputClassFor("email")} 
+                                    autoComplete="off"
+                                />
+                                {errors.email && (
+                                    <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg mt-2 text-sm shadow-sm">
+                                        {errors.email}
+                                    </div>
+                                )}
                             </div>
                             <div>
                                 <label className="block text-gray-700 font-semibold mb-1">Teléfono</label>
-                                <input type="tel" name="telefono" value={formData.telefono} onChange={handleChange} className={inputClass} />
+                                <input 
+                                    type="tel" 
+                                    name="telefono" 
+                                    value={formData.telefono} 
+                                    onChange={handleChange} 
+                                    className={inputClassFor("telefono")} 
+                                    maxLength={15}
+                                    inputMode="numeric"
+                                    autoComplete="off"
+                                />
+                                {errors.telefono && (
+                                    <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg mt-2 text-sm shadow-sm">
+                                        {errors.telefono}
+                                    </div>
+                                )}
                             </div>
                         </div>
                     )}
@@ -219,11 +392,16 @@ export default function FormularioCliente({ nomActividad, planes, onClose }) {
                         <div>
                             <label className="block text-gray-700 font-semibold mb-1">Elegí el plan de {nomActividad} *</label>
                             {/* Estilo del select con appearance-none para customización */}
-                            <select name="plan" value={JSON.stringify(formData.plan)} onChange={handleChange} className={inputClass + " appearance-none cursor-pointer"} required>
+                            <select name="plan" value={JSON.stringify(formData.plan)} onChange={handleChange} className={inputClassFor("plan") + " appearance-none cursor-pointer"} required>
                                 {planes.map((p) => (
                                     <option key={p.nombre} value={JSON.stringify(p)} className="p-3">{p.nombre} — {p.precio}</option>
                                 ))}
                             </select>
+                            {errors.plan && (
+                                <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg mt-2 text-sm shadow-sm">
+                                    {errors.plan}
+                                </div>
+                            )}
                         </div>
                     )}
 
@@ -237,7 +415,7 @@ export default function FormularioCliente({ nomActividad, planes, onClose }) {
                                 value={formData.condicionFisica} 
                                 onChange={handleChange} 
                                 rows="4" 
-                                className={inputClass + " resize-none"} 
+                                className={inputClassFor("condicionFisica") + " resize-none"} 
                                 placeholder="Ej: 'Lesión crónica en rodilla izquierda', 'Asma', 'Diabetes', etc."
                             />
                         </div>
@@ -252,7 +430,7 @@ export default function FormularioCliente({ nomActividad, planes, onClose }) {
                                 value={formData.observaciones} 
                                 onChange={handleChange} 
                                 rows="4" 
-                                className={inputClass + " resize-none"} 
+                                className={inputClassFor("observaciones") + " resize-none"} 
                                 placeholder="Escribe aquí si deseas contarnos algo sobre tu inscripción o salud..."
                             />
                         </div>
