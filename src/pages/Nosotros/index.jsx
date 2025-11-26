@@ -1,95 +1,115 @@
-//import staff from "./kinesiolos"; // tu array con datos del staff actualizado
-// import { motion } from "framer-motion";
+// Nosotros.jsx
 import * as C from "../../componentes/index";
-import actividades from "../Actividades/actividades"
+import actividades from "../Actividades/actividades";
+import { motion } from "framer-motion";
+
+// 🚨 Definición de VARIANTE FALTANTE para los ítems de la lista 🚨
+const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+        y: 0,
+        opacity: 1,
+        transition: {
+            type: "spring",
+            stiffness: 100,
+        },
+    },
+};
+// ---------------------------------------------------------------
+
+const textVariants = {
+  hidden: { y: 30, opacity: 0 },
+  visible: { 
+    y: 0, 
+    opacity: 1, 
+    transition: { type: "spring", stiffness: 50, duration: 0.8 } 
+  },
+};
+
+const containerVariants = {
+    hidden: { opacity: 0 }, // Añadido estado 'hidden' para el contenedor principal
+    visible: {
+        opacity: 1,
+        transition: {
+            delayChildren: 0.1, 
+            staggerChildren: 0.15, 
+        },
+    },
+};
+
 
 export default function Nosotros() {
   return (
     <section
       id="nosotros"
-         className="min-h-screen flex flex-col items-center justify-center text-center bg-gradient-to-b from-[var(--c-ink)]  to-[var(--c-brown)] px-4"
+      className="min-h-screen flex flex-col items-center justify-center text-center bg-gradient-to-b from-[var(--c-ink)] to-[var(--c-brown)] px-4 py-16"
     >
-      <div className="flex flex-col items-center max-w-7xl w-full gap-12">
-        <C.TituloSeccion texto="KUROOBI" />
-        <C.Subtitulo texto="Centro integral deportivo de rehabilitacion y readaptacion de alto rendimiento" />
-        {/* Descripción principal */}
-        <p className="text-center text-[var(--c-graylite)] max-w-3xl">
-          En <strong>Kuroobi</strong> reconstruimos nuestro gimnasio para crear el primer centro de rehabilitación y
-          readaptación deportiva de Neuquén Capital. 
-          <br />
-          🔨 Cada rincón está pensado para tu bienestar, 🏋️‍♀️ tu fuerza y tu recuperación.
-          <br />
-          📍 Cacique Catriel 434, Neuquén Capital
-        </p>
+      <motion.div 
+        className="flex flex-col items-center max-w-7xl w-full gap-12"
+        variants={containerVariants}
+        initial="hidden" // Usamos el estado 'hidden' del contenedor
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+      >
+        
+        {/* Título de la Sección */}
+        <motion.div variants={textVariants}>
+            <C.TituloSeccion texto="KUROOBI" />
+        </motion.div>
 
-          {/* Actividades principales desde JSON */}
-        <div className="flex flex-wrap justify-center gap-4 mt-6">
+        {/* Subtítulo */}
+        <motion.div variants={textVariants}>
+            <C.Subtitulo texto="Centro integral deportivo de rehabilitación y readaptación de alto rendimiento" />
+        </motion.div>
+        
+        {/* Descripción principal */}
+        <motion.div variants={textVariants} className="text-center text-[var(--c-graylite)] max-w-3xl flex flex-col items-center gap-4">
+            <p>
+              En <strong>Kuroobi</strong> reconstruimos nuestro gimnasio para crear el primer centro de rehabilitación y
+              readaptación deportiva de Neuquén Capital.
+            </p>
+            <h4 className="text-xl font-bold text-yellow-300">
+                🔨 Cada rincón está pensado para tu bienestar, 🏋️‍♀️ tu fuerza y tu recuperación.
+            </h4>
+            <p className="font-medium">
+                📍 Cacique Catriel 434, Neuquén Capital
+            </p>
+        </motion.div>
+
+        <h3 className="text-2xl font-semibold text-[var(--c-graylite)] mt-6">Nuestras Actividades</h3>
+        
+        {/* Lista de Actividades */}
+        <ul className="flex flex-wrap justify-center gap-4">
           {actividades.map((act, idx) => (
-            <span
+            <motion.li 
               key={idx}
-              className="px-4 py-2 bg-yellow-300 text-black rounded-full font-semibold shadow-md hover:scale-105 transition-transform cursor-pointer"
+              variants={itemVariants} // Ahora existe y la animación funcionará
+              className="px-4 py-2 bg-yellow-300 text-black rounded-full font-semibold shadow-md hover:scale-105 transition-transform cursor-pointer list-none"
               title={`${act.planes.length} plan(es) disponibles`}
             >
               {act.nombre}
-            </span>
+            </motion.li>
           ))}
-        </div>
+        </ul>
 
         {/* Horarios de apertura */}
-        <p className="mt-6 text-[var(--c-graylite)]">
-          Abierto Lunes a Viernes de 07:00 a 22:00 hs.
-        
-        </p>
+        <motion.p variants={textVariants} className="mt-6 text-[var(--c-graylite)] text-lg">
+          <strong className="text-yellow-300">Horario:</strong> Lunes a Viernes de 07:00 a 22:00 hs.
+        </motion.p>
 
+        {/* Mensaje motivacional con estilo de cita */}
+        <motion.blockquote variants={textVariants} className="mt-6 text-[var(--c-graylite)] max-w-3xl italic p-4 border-l-4 border-yellow-300 bg-[var(--c-primary)]/20 rounded-md">
+          <p className="text-lg">
+            "✨ Nuestras puertas ya estan abiertas: sé parte de Kuroobi y viví esta
+            transformación con nosotros."
+          </p>
+          <footer className="mt-2 text-sm text-gray-400">#readaptaciondeportiva #rehabilitación #fisioterapia #sportsrehab #wellness</footer>
+        </motion.blockquote>
+         
+        {/* Componente Información */}
+        <C.Informacion/> 
         
-
-        {/* Mensaje motivacional */}
-        <p className="mt-6 text-[var(--c-graylite)] max-w-3xl italic">
-          ✨ Nuestras puertas ya estan abiertas: sé parte de Kuroobi y viví esta
-          transformación con nosotros. #readaptaciondeportiva #rehabilitación
-          #fisioterapia #sportsrehab #wellness
-        </p>
-         <C.Informacion/>
-
-        {/* Grid de staff 
-        
-             <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl w-full">
-          {staff.map((member, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.2, duration: 0.6 }}
-              whileHover={{ scale: 1.05 }}
-              className="bg-[var(--c-graylite)]/90 backdrop-blur-sm shadow-xl rounded-3xl p-6 flex flex-col items-center border border-[var(--c-graydark)] hover:shadow-[0_10px_40px_-10px_rgba(150,31,28,0.6)] transition"
-            >
-              <div className="flex flex-col items-center text-center">
-                <div className="w-36 h-36 rounded-full overflow-hidden border-4 border-[var(--c-primary)] mb-4">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <h3 className="text-2xl font-semibold text-[var(--c-brown)] mb-1">
-                  {member.name}
-                </h3>
-                <p className="text-[var(--c-graydark)] text-sm">
-                  {member.role}
-                </p>
-                {member.highlight && (
-                  <span className="mt-3 px-3 py-1 bg-[var(--c-primary)] text-white text-xs rounded-full font-semibold">
-                    Destacado
-                  </span>
-                )}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        
-        */}
-   
-      </div>
+      </motion.div>
     </section>
   );
 }

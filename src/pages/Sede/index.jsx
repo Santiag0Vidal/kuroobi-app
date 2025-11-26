@@ -9,14 +9,7 @@ export default function Sede() {
       <C.TituloSeccion texto="NUESTRO ESPACIO EN NEUQUÉN" />
       <C.Sede />
 
-      <a
-        href="#descuentos"
-        className="inline-block px-12 py-6 mt-20 rounded-2xl bg-[var(--c-primary)] text-[var(--c-graylite)] font-bold shadow-xl 
-             hover:bg-[var(--c-hover)] hover:text-[var(--c-brown)] hover:scale-110 
-             transition-all duration-300 ease-in-out animate-pulse text-center"
-      >
-        Conoce nuestros descuentos
-      </a>
+
     </section>
   );
 }

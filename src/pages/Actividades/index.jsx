@@ -5,13 +5,18 @@ export default function Actividades() {
   return (
     <section
       id="actividades"
-      className="min-h-screen flex flex-col items-center justify-center text-center bg-gradient-to-b from-[var(--c-ink)]  to-[var(--c-brown)] px-4"
+      // Se ajusta la clase para usar un degradado más sutil que se desvanece
+      // El degradado va de un color oscuro y opaco a uno transparente sobre el color de fondo base (c-brown)
+      className="min-h-screen flex flex-col items-center justify-center text-center 
+                 bg-gradient-to-b from-[var(--c-ink)]/90 via-[var(--c-ink)]/70 to-[var(--c-brown)] px-4 py-16"
     >
       <div className="flex flex-col items-center max-w-7xl w-full">
+        {/* Componente TítuloSeccion */}
         <C.TituloSeccion texto="ALTERNATIVAS DE ACTIVIDADES"/>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6 w-full">
-
+        {/* REVERTIDO: Se regresa a la configuración original para mantener el tamaño de las cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6 w-full mt-10">
+            {/* Las tarjetas CardActividades se muestran en cuadrícula */}
             <CardActividades
               titulo="MUSCULACION"
               descripcion="Musculacion"
