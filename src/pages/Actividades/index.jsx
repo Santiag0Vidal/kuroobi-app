@@ -50,7 +50,7 @@ export default function Actividades() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            transition={{ duration: baseDuration, delay: baseDelay * 1.5 }}
+            transition={{ duration: baseDuration, delay: baseDelay * 1.2 }}
           >
             <CardActividades
               titulo="KARATE"
@@ -65,7 +65,7 @@ export default function Actividades() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            transition={{ duration: baseDuration, delay: baseDelay * 2 }}
+            transition={{ duration: baseDuration, delay: baseDelay * 1.4 }}
           >
             <CardActividades
               titulo="KARATE NIÑOS"
@@ -80,7 +80,7 @@ export default function Actividades() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            transition={{ duration: baseDuration, delay: baseDelay * 2.5 }}
+            transition={{ duration: baseDuration, delay: baseDelay * 1.6 }}
           >
             <CardActividades
               titulo="INDOOR CYCLING"
@@ -95,7 +95,7 @@ export default function Actividades() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            transition={{ duration: baseDuration, delay: baseDelay * 3 }}
+            transition={{ duration: baseDuration, delay: baseDelay * 1.8 }}
           >
             <CardActividades
               titulo="FUNCIONAL"
@@ -110,7 +110,7 @@ export default function Actividades() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            transition={{ duration: baseDuration, delay: baseDelay * 3.5 }}
+            transition={{ duration: baseDuration, delay: baseDelay * 2 }}
           >
             <CardActividades
               titulo="YOGA"
@@ -125,7 +125,7 @@ export default function Actividades() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            transition={{ duration: baseDuration, delay: baseDelay * 4 }}
+            transition={{ duration: baseDuration, delay: baseDelay * 2.2 }}
           >
             <CardActividades
               titulo="STRETCHING"
@@ -140,7 +140,7 @@ export default function Actividades() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            transition={{ duration: baseDuration, delay: baseDelay * 4.5 }}
+            transition={{ duration: baseDuration, delay: baseDelay * 2.4 }}
           >
             <CardActividades
               titulo="GAP"
@@ -155,7 +155,7 @@ export default function Actividades() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            transition={{ duration: baseDuration, delay: baseDelay * 5 }}
+            transition={{ duration: baseDuration, delay: baseDelay * 2.6 }}
           >
             <CardActividades
               titulo="PASE FULL"
