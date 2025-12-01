@@ -7,7 +7,7 @@ const NavLink = [
   { id: "horarios", label: "Cronograma" },
   { id: "nosotros", label: "Nosotros" },
   { id: "contacto", label: "Contacto" },
-  { id: "descuentos", label: "Descuestos" },
+  { id: "descuentos", label: "Descuentos" },
 //  { id: "novedades", label: "Novedades" },
 ];
 
