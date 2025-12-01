@@ -19,22 +19,29 @@ const calculateAge = (dateString) => {
     return age;
 };
 
-export default function FormularioCliente({ nomActividad, planes, onClose }) {
-    const navigate = useNavigate();
 
-    const [activeTab, setActiveTab] = useState("personal");
-    const [formData, setFormData] = useState({
-        nombre: "",
-        apellido: "",
-        email: "",
-        telefono: "",
-        dni: "",
-        fechaNacimiento: "",
-        actividad: nomActividad,
-        plan: planes[0] || {},
-        condicionFisica: "", // Campo para la condición física/salud
-        observaciones: "",
-    });
+export default function FormularioCliente({ nomActividad, planes, onClose }) {
+  const navigate = useNavigate();
+
+  // 🔹 Limpia el localStorage cada vez que entrás a un formulario de actividad
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
+
+  const [activeTab, setActiveTab] = useState("personal");
+
+  const [formData, setFormData] = useState({
+    nombre: "",
+    apellido: "",
+    email: "",
+    telefono: "",
+    dni: "",
+    fechaNacimiento: "",
+    actividad: nomActividad,
+    plan: planes[0] || {},
+    condicionFisica: "",
+    observaciones: "",
+  });
 
     // Estado para errores por campo
     const [errors, setErrors] = useState({});
