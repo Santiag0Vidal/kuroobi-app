@@ -91,10 +91,10 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
 
             <button
               className="bg-yellow-400 text-black px-6 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition"
-              onClick={() => {
-                setShowDescripcion(false);
-                setOpenFormulario(true);
-              }}
+           //   onClick={() => {
+             //   setShowDescripcion(false);
+               // setOpenFormulario(true);
+            //  }}
             >
               Ver planes
             </button>
