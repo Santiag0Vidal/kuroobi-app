@@ -2,7 +2,6 @@
 //NARVAR
 export {default as Navbar} from './Navbar/Navbar.jsx';
 export {default as Logo} from './Navbar/Logo.jsx';
-export {default as NavbarInterno} from './Navbar/NavbarInterno.jsx';
 export {default as NavComun} from './Navbar/NavComun.jsx';
 //Footer
 export {default as Fotter} from './Footer/index.jsx'
@@ -29,7 +28,5 @@ export {default as Informacion} from './Informacion/index.jsx'
 //Mapa
 export {default as Mapa} from './Mapa/index.jsx'
 
-//Botones
-export {default as BotonAgregar} from './BotonAgregar/index.jsx';
-export {default as BotonCarrito} from './BotonCarrito/index.jsx';
+export { default as BannerLab } from './BannerLab/index.jsx';
 

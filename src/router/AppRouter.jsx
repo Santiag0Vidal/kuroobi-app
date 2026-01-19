@@ -13,6 +13,9 @@ function AppRouter() {
       <Route path="/nosotros" element={<P.Nosotros />} />
       <Route path="/membresia" element={<P.Membresia />} />
       <Route path="/preguntas" element={<P.Preguntas />} />
+      <Route path="/kuroobi-lab" element={<P.KuroobiLab />} />
+
+
       <Route path="*" element={<P.NotFound />} />
       
     </Routes>

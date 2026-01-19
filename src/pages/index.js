@@ -21,3 +21,4 @@ export {default as Carrito} from './Carrito/index.jsx';
 //No found
 export {default as NotFound} from './NotFound/index.jsx';
 
+export { default as KuroobiLab } from "./KuroobiLab";

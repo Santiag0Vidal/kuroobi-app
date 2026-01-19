@@ -1,14 +1,15 @@
+// navLinks.js
 const NavLink = [
-  // { "id": "tratamientos", "label": "Tratamientos" },
-  // { "id": "membresia", "label": "Membresía" },
-  // { "id": "preguntas", "label": "Preguntas" },
-  { id: "sede", label: "Sede Neuquén" },
-  { id: "actividades", label: "Actividades" },
-  { id: "horarios", label: "Cronograma" },
-  { id: "nosotros", label: "Nosotros" },
-  { id: "contacto", label: "Contacto" },
-  { id: "descuentos", label: "Descuentos" },
-//  { id: "novedades", label: "Novedades" },
+  // Link tipo 'page': lleva a una ruta nueva
+  { id: "kuroobi-lab", label: "Kuroobi Lab", type: "page", path: "/kuroobi-lab" },
+  
+  // Link tipo 'scroll': son secciones de la Home
+  { id: "sede", label: "Sede Neuquén", type: "scroll" },
+  { id: "actividades", label: "Actividades", type: "scroll" },
+  { id: "horarios", label: "Cronograma", type: "scroll" },
+  { id: "nosotros", label: "Nosotros", type: "scroll" },
+  { id: "contacto", label: "Contacto", type: "scroll" },
+  { id: "descuentos", label: "Descuentos", type: "scroll" },
 ];
 
 export default NavLink;
