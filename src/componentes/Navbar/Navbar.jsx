@@ -1,125 +1,159 @@
 import { useState, useEffect } from "react";
-import { useLocation, Link } from "react-router-dom"; // IMPORTANTE: Agregar esto
+import { useLocation, Link, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import navLinks from "./navLinks.js";
 import * as C from "../index";
 import ConectarButton from "../../utils/conexion_back.jsx";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Cpu } from "lucide-react";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-  
-  // Hook para saber en qué ruta estamos (ej: "/" o "/kuroobi-lab")
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-  const isHomePage = location.pathname === "/";
+  const navigate = useNavigate();
 
+  // 1. Bloquear scroll del body cuando el menú está abierto
   useEffect(() => {
-    setIsMounted(true);
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [isOpen]);
+
+  // 2. Scroll detector
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Función inteligente para determinar a dónde lleva cada click
-  const getLinkHref = (link) => {
-    // 1. Si el link es del tipo "página" (Kuroobi Lab), usa su ruta directa
-    if (link.type === 'page') {
-      return link.path;
-    }
-    // 2. Si es un ancla (#) y NO estamos en la Home, forzamos ir a la Home primero (ej: /#horarios)
-    if (!isHomePage) {
-      return `/#${link.id}`;
-    }
-    // 3. Si estamos en Home, comportamiento normal de scroll
-    return `#${link.id}`;
+  const handleScrollTo = (id) => {
+    const section = document.getElementById(id);
+    if (!section) return;
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
+    setIsOpen(false);
   };
 
-  const mobileMenuStyles = isOpen 
-    ? "transform translate-y-0 opacity-100 transition-all duration-500 ease-out" 
-    : "transform -translate-y-full opacity-0 pointer-events-none";
+  const handleNavClick = (link) => {
+    if (link.type === "page") {
+      navigate(link.path);
+      setIsOpen(false);
+    } else {
+      if (location.pathname !== "/") {
+        navigate("/");
+        setTimeout(() => handleScrollTo(link.id), 300); // Un poco más de tiempo para el render
+      } else {
+        handleScrollTo(link.id);
+      }
+    }
+  };
 
   return (
-    <nav className="bg-[var(--c-ink)] text-white fixed top-0 w-full shadow-xl z-50">
-      <div className="container mx-auto flex items-center justify-between px-4 py-4">
-
-        {/* LOGO: Ahora envuelto en Link para que siempre lleve al Inicio al hacer click */}
-        <Link to="/" className={`block transition-all duration-500 ${isMounted ? 'scale-100 opacity-100' : 'scale-75 opacity-0'}`}>
-           <C.Logo className="w-20 h-20" /> 
-        </Link>
-
-        {/* Botón hamburguesa */}
-        <button
-          className="sm:hidden flex items-center justify-center p-2 text-[var(--c-primary)] hover:text-[#f9a826] transition duration-300 rounded-lg"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
-        >
-          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
-
-        {/* Links Escritorio */}
-        <ul className="hidden sm:flex flex-wrap items-center justify-center gap-4 text-base font-medium">
-          {navLinks.map((link, index) => (
-            <li 
-              key={link.id} 
-              className={`group relative transition-all duration-500 ease-out 
-                           ${isMounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
-              style={{ transitionDelay: `${index * 80}ms` }} 
-            >
-              {/* Usamos lógica condicional: Link de Router para páginas, <a> normal para anclas */}
-              {link.type === 'page' ? (
-                 <Link
-                   to={link.path}
-                   className="block py-2 px-2 text-[var(--c-primary)] transition-all duration-300 font-semibold hover:text-[#f9a826] hover:scale-105"
-                 >
-                   {link.label}
-                 </Link>
-              ) : (
-                 <a
-                   href={getLinkHref(link)}
-                   className="block py-2 px-2 text-[var(--c-primary)] transition-all duration-300 font-semibold hover:text-[#f9a826] hover:scale-105"
-                 >
-                   {link.label}
-                 </a>
-              )}
-              
-              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-[#f9a826] transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-            </li>
-          ))}
+    <>
+      <nav
+        className={`fixed top-0 w-full z-[120] transition-all duration-500 ${
+          scrolled || isOpen
+            ? "bg-black/80 backdrop-blur-xl py-3 border-b border-white/10"
+            : "bg-transparent py-6"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 lg:px-12">
           
-          <div 
-             className={`transition-all duration-500 ease-out ${isMounted ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
-             style={{ transitionDelay: `${navLinks.length * 80}ms` }}
-          >
-            <ConectarButton/>
-          </div>
-        </ul>
-      </div>
+          {/* LOGO */}
+          <Link to="/" onClick={() => setIsOpen(false)} className="relative z-[130] block group">
+            <C.Logo className="w-12 md:w-20 transition-all duration-500 group-hover:scale-105" />
+          </Link>
 
-      {/* Menú Móvil */}
-      <ul className={`sm:hidden flex flex-col items-center gap-3 bg-[var(--c-ink)] py-4 absolute w-full ${mobileMenuStyles}`}>
-        {navLinks.map((link) => (
-          <li key={link.id} className="w-full text-center">
-             {link.type === 'page' ? (
-                <Link
-                  to={link.path}
-                  className="block py-2 px-6 text-[var(--c-primary)] text-lg font-medium transition-all duration-300 hover:text-[#f9a826] hover:scale-105"
-                  onClick={() => setIsOpen(false)}
+          {/* BOTÓN HAMBURGUESA - Elevamos el z-index para que esté sobre el overlay */}
+          <button
+            className="lg:hidden relative z-[130] p-2 text-white outline-none"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Alternar menú"
+          >
+            <AnimatePresence mode="wait">
+              {isOpen ? (
+                <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
+                  <X size={32} className="text-red-600" />
+                </motion.div>
+              ) : (
+                <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
+                  <Menu size={32} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </button>
+
+          {/* LINKS DESKTOP */}
+          <ul className="hidden lg:flex items-center gap-1">
+            {navLinks.map((link, index) => (
+              <motion.li key={link.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: index * 0.1 }}>
+                <button
+                  onClick={() => handleNavClick(link)}
+                  className="px-5 py-2 text-[10px] font-black uppercase tracking-[0.25em] text-gray-400 hover:text-white transition-all duration-300 relative group"
                 >
+                  <span className="w-1 h-1 bg-red-600 rounded-full absolute left-1/2 -bottom-1 scale-0 group-hover:scale-100 transition-transform -translate-x-1/2" />
                   {link.label}
-                </Link>
-             ) : (
-                <a
-                  href={getLinkHref(link)}
-                  className="block py-2 px-6 text-[var(--c-primary)] text-lg font-medium transition-all duration-300 hover:text-[#f9a826] hover:scale-105"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.label}
-                </a>
-             )}
-          </li>
-        ))}
-        <div className="pt-4 pb-2" onClick={() => setIsOpen(false)}>
-            <ConectarButton/>
+                </button>
+              </motion.li>
+            ))}
+            <div className="ml-6">
+              <ConectarButton />
+            </div>
+          </ul>
         </div>
-      </ul>
-    </nav>
+      </nav>
+
+      {/* MENÚ MOBILE OVERLAY */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ type: "spring", damping: 30, stiffness: 200 }}
+            className="fixed inset-0 h-screen w-full bg-black/98 backdrop-blur-3xl lg:hidden flex flex-col items-center justify-center z-[110]"
+          >
+            {/* Fondo decorativo interno */}
+            <div className="absolute inset-0 overflow-hidden opacity-20 pointer-events-none">
+                <div className="absolute top-1/4 -right-20 w-96 h-96 bg-red-600/20 rounded-full blur-[120px]" />
+            </div>
+
+            <ul className="flex flex-col items-center gap-10 relative z-10">
+              {navLinks.map((link, i) => (
+                <motion.li
+                  key={link.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 + i * 0.1 }}
+                >
+                  <button
+                    onClick={() => handleNavClick(link)}
+                    className="text-4xl font-black uppercase italic tracking-tighter text-white hover:text-red-600 transition-colors"
+                  >
+                    {link.label}
+                  </button>
+                </motion.li>
+              ))}
+
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="mt-6 scale-125"
+              >
+                <ConectarButton />
+              </motion.div>
+            </ul>
+
+            <div className="absolute bottom-12 flex flex-col items-center gap-2 opacity-30">
+              <Cpu size={16} className="text-red-600" />
+              <span className="text-[8px] font-mono tracking-[0.5em] text-white">KUROOBI SYSTEM</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 

@@ -2,170 +2,66 @@ import * as C from "../../componentes/index.js";
 import CardActividades from "./Cards/index.jsx";
 import { motion } from "framer-motion";
 
-export default function Actividades() {
+const listaActividades = [
+  { titulo: "MUSCULACION", img: "/Actividades/musculacion.JPG" },
+  { titulo: "KARATE", img: "/Actividades/karate.jpg" },
+  { titulo: "KARATE NIÑOS", img: "/Actividades/karate-ni.jpg" },
+  { titulo: "INDOOR", img: "/Actividades/indoor.JPG" },
+  { titulo: "FUNCIONAL", img: "/Actividades/funcional.jpg" },
+  { titulo: "YOGA", img: "/Actividades/yoga.jpg" },
+  { titulo: "STRETCHING", img: "/Actividades/stretching.png" },
+  { titulo: "GAP", img: "/Actividades/gap.jpg" },
+  { titulo: "FULL", img: "/Actividades/full.png" },
+];
 
-  // Animación suave de aparición
-  const item = {
-    hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0 }
+export default function Actividades() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 },
+    },
   };
 
-  // Configuración de tiempos
-  const baseDuration = 0.8; // animación más lenta
-  const baseDelay = 0.25;   // se demora más en iniciar cada card
+  const cardVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" } 
+    },
+  };
 
   return (
     <section
       id="actividades"
-      className="
-        min-h-screen flex flex-col items-center justify-center text-center 
-        bg-gradient-to-b from-[var(--c-ink)]/90 via-[var(--c-ink)]/70 to-[var(--c-brown)]
-        px-4 py-16
-      "
+      className="min-h-screen bg-black py-24 px-6 relative overflow-hidden"
     >
-      <div className="flex flex-col items-center max-w-7xl w-full">
+      {/* Título de Sección */}
+      <C.TituloSeccion texto="ALTERNATIVAS DE ACTIVIDADES" subtitulo="Entrenamiento Pro" />
 
-        <C.TituloSeccion texto="ALTERNATIVAS DE ACTIVIDADES" />
-
-        <div className="grid grid-cols-1 gap-6 w-full mt-10">
-
-          {/* 1 - MUSCULACION */}
+      {/* Grilla de Actividades */}
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+        className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center"
+      >
+        {listaActividades.map((act, index) => (
           <motion.div
-            variants={item}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            transition={{ duration: baseDuration, delay: baseDelay * 1 }}
+            key={index}
+            variants={cardVariants}
+            className="w-full flex justify-center"
           >
             <CardActividades
-              titulo="MUSCULACION"
-              descripcion="Musculacion"
-              imagen="/Actividades/musculacion.JPG"
+              titulo={act.titulo}
+              descripcion={act.titulo}
+              imagen={act.img}
             />
           </motion.div>
-
-          {/* 2 - KARATE */}
-          <motion.div
-            variants={item}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            transition={{ duration: baseDuration, delay: baseDelay * 1.2 }}
-          >
-            <CardActividades
-              titulo="KARATE"
-              descripcion="Karate"
-              imagen="/Actividades/karate.jpg"
-            />
-          </motion.div>
-
-          {/* 3 - KARATE NIÑOS */}
-          <motion.div
-            variants={item}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            transition={{ duration: baseDuration, delay: baseDelay * 1.4 }}
-          >
-            <CardActividades
-              titulo="KARATE NIÑOS"
-              descripcion="Karate Niños"
-              imagen="/Actividades/karate-ni.jpg"
-            />
-          </motion.div>
-
-          {/* 4 - INDOOR CYCLING */}
-          <motion.div
-            variants={item}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            transition={{ duration: baseDuration, delay: baseDelay * 1.6 }}
-          >
-            <CardActividades
-              titulo="INDOOR CYCLING"
-              descripcion="Indoor"
-              imagen="/Actividades/indoor.JPG"
-            />
-          </motion.div>
-
-          {/* 5 - FUNCIONAL */}
-          <motion.div
-            variants={item}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            transition={{ duration: baseDuration, delay: baseDelay * 1.8 }}
-          >
-            <CardActividades
-              titulo="FUNCIONAL"
-              descripcion="Funcional"
-              imagen="/Actividades/funcional.jpg"
-            />
-          </motion.div>
-
-          {/* 6 - YOGA */}
-          <motion.div
-            variants={item}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            transition={{ duration: baseDuration, delay: baseDelay * 2 }}
-          >
-            <CardActividades
-              titulo="YOGA"
-              descripcion="Yoga"
-              imagen="/Actividades/yoga.jpg"
-            />
-          </motion.div>
-
-          {/* 7 - STRETCHING */}
-          <motion.div
-            variants={item}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            transition={{ duration: baseDuration, delay: baseDelay * 2.2 }}
-          >
-            <CardActividades
-              titulo="STRETCHING"
-              descripcion="Stretching"
-              imagen="/Actividades/stretching.png"
-            />
-          </motion.div>
-
-          {/* 8 - GAP */}
-          <motion.div
-            variants={item}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            transition={{ duration: baseDuration, delay: baseDelay * 2.4 }}
-          >
-            <CardActividades
-              titulo="GAP"
-              descripcion="GAP"
-              imagen="/Actividades/gap.jpg"
-            />
-          </motion.div>
-
-          {/* 9 - PASE FULL */}
-          <motion.div
-            variants={item}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            transition={{ duration: baseDuration, delay: baseDelay * 2.6 }}
-          >
-            <CardActividades
-              titulo="PASE FULL"
-              descripcion="Full"
-              imagen="/Actividades/full.png"
-            />
-          </motion.div>
-
-        </div>
-      </div>
+        ))}
+      </motion.div>
     </section>
   );
 }

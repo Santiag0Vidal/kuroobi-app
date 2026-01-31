@@ -1,59 +1,35 @@
 import { useState, useMemo } from "react";
-// 🚨 Importación limpia: Asumimos que la ruta y la exportación funcionan 🚨
+import { motion, AnimatePresence } from "framer-motion";
 import horarios from "./horarios"; 
-import { ChevronDown, ChevronUp, Clock, Calendar, CheckSquare } from "lucide-react"; 
+import { ChevronDown, Clock, Calendar, Zap } from "lucide-react"; 
 import * as C from "../../componentes/index";
 
 const dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes"];
 
-// Mapeo de colores para mejorar la visualización y diferenciación
-const TIPO_COLORES = {
-    "Musculación": { bg: "bg-gray-300", text: "text-gray-800", accent: "bg-gray-400" },
-    "Indoor": { bg: "bg-red-300", text: "text-red-900", accent: "bg-red-400" },
-    "Yoga": { bg: "bg-purple-300", text: "text-purple-900", accent: "bg-purple-400" },
-    "Karate": { bg: "bg-slate-300", text: "text-slate-900", accent: "bg-slate-400" },
-    "Karate Niños": { bg: "bg-yellow-300", text: "text-yellow-900", accent: "bg-yellow-400" },
-    "GAP": { bg: "bg-blue-300", text: "text-blue-900", accent: "bg-blue-400" },
-    "Funcional": { bg: "bg-green-300", text: "text-green-900", accent: "bg-green-400" },
-    "Stretching": { bg: "bg-pink-300", text: "text-pink-900", accent: "bg-pink-400" },
-};
-
-// Función para obtener el nombre del día actual en español (para apertura automática)
 const obtenerDiaActual = () => {
     const d = new Date();
-    // Nota: Usamos 'es-AR' para asegurar la localización.
     const nombreDia = d.toLocaleDateString('es-AR', { weekday: 'long' }); 
     let dia = nombreDia.charAt(0).toUpperCase() + nombreDia.slice(1);
-    
-    // Normalizar si el sistema operativo devuelve "Miércoles" con tilde
     if (dia === "Miércoles") return "Miercoles"; 
-    if (dia === "Sábado" || dia === "Domingo") return null; // No mostrar si es fin de semana
-    
     return dias.includes(dia) ? dia : null;
 };
 
 export default function HorariosAcordeon() {
   const diaActual = useMemo(() => obtenerDiaActual(), []);
-  const [openDay, setOpenDay] = useState(diaActual); // Abre el día actual por defecto
+  const [openDay, setOpenDay] = useState(diaActual);
 
-  // Función para ordenar las actividades por hora de inicio (ej: "07:00")
-  const ordenarActividades = (a, b) => {
-      // Comparación de cadenas simple para ordenar horas: "07:00" < "08:30"
-      if (a.inicio < b.inicio) return -1;
-      if (a.inicio > b.inicio) return 1;
-      return 0;
-  };
- 
+  const ordenarActividades = (a, b) => a.inicio.localeCompare(b.inicio);
+
   return (
-    <section
-      id="horarios"
-      className="min-h-screen flex flex-col items-center justify-center text-center bg-gradient-to-b from-[var(--c-brown)]  to-[var(--c-ink)] px-4 py-16"
-    >
-      <C.TituloSeccion texto="CRONOGRAMA DE ACTIVIDADES" />
+    <section id="horarios" className="min-h-screen bg-black py-24 px-6 relative overflow-hidden">
+      
+      {/* Fondo decorativo sutil */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-red-600/5 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="w-full max-w-3xl mt-10 space-y-6">
-        {dias.map((dia) => {
-          // 🚨 CLAVE: Filtrar y ordenar los datos 🚨
+      <C.TituloSeccion texto="CRONOGRAMA" subtitulo="Horarios de Entrenamiento" />
+
+      <div className="w-full max-w-4xl mx-auto mt-12 space-y-4 relative z-10">
+        {dias.map((dia, index) => {
           const actividadesDia = horarios
             .filter((h) => h.dia === dia)
             .sort(ordenarActividades);
@@ -62,80 +38,85 @@ export default function HorariosAcordeon() {
           const isToday = dia === diaActual;
 
           return (
-            <div
-              key={dia}
-              className={`rounded-2xl shadow-2xl overflow-hidden transition duration-500 ${
-                isToday ? "border-4 border-yellow-300" : "bg-white"
-              }`}
-            >
-              {/* Header del día */}
+            <div key={dia} className="border border-white/5 rounded-[2rem] overflow-hidden bg-[#0a0a0a]">
+              
+              {/* HEADER DEL DÍA */}
               <button
                 onClick={() => setOpenDay(isOpen ? null : dia)}
-                className={`w-full flex justify-between items-center px-6 py-5 text-xl font-extrabold transition ${
-                    isToday 
-                      ? "bg-yellow-300 text-gray-900 hover:bg-yellow-400" // Estilo para HOY
-                      : "bg-[var(--c-primary)] text-white hover:opacity-90" // Estilo normal
+                className={`w-full flex justify-between items-center px-8 py-6 transition-all duration-300 ${
+                    isOpen ? "bg-white/5" : "hover:bg-white/[0.02]"
                 }`}
               >
-                <span className="flex items-center gap-3">
-                    <Calendar className="w-6 h-6" />
-                    {dia} {isToday && <span className="text-sm font-semibold">(HOY)</span>}
-                </span>
-                {isOpen ? (
-                  <ChevronUp className="w-6 h-6" />
-                ) : (
-                  <ChevronDown className="w-6 h-6" />
-                )}
+                <div className="flex items-center gap-4">
+                    <div className={`p-2 rounded-xl ${isToday ? "bg-red-600 text-white" : "bg-white/5 text-gray-500"}`}>
+                        <Calendar size={20} />
+                    </div>
+                    <span className={`text-xl font-black uppercase italic tracking-tighter ${isToday ? "text-white" : "text-gray-400"}`}>
+                        {dia}
+                    </span>
+                    {isToday && (
+                        <span className="text-[10px] font-black bg-amber-400 text-black px-3 py-1 rounded-full tracking-widest uppercase ml-2 animate-pulse">
+                            Hoy
+                        </span>
+                    )}
+                </div>
+                <motion.div animate={{ rotate: isOpen ? 180 : 0 }}>
+                    <ChevronDown className={isOpen ? "text-red-600" : "text-gray-600"} />
+                </motion.div>
               </button>
 
-              {/* Contenido colapsable */}
-              <div
-                className={`grid transition-all duration-500 ease-in-out ${
-                  isOpen
-                    ? "grid-rows-[1fr] opacity-100"
-                    : "grid-rows-[0fr] opacity-0"
-                }`}
-              >
-                <div className="overflow-hidden">
-                  <div className="p-5 space-y-3 bg-gray-100"> 
-                    {actividadesDia.length > 0 ? (
-                      actividadesDia.map((act, idx) => {
-                          const { bg, text, accent } = TIPO_COLORES[act.actividad] || { 
-                              bg: "bg-blue-100", text: "text-gray-800", accent: "bg-blue-500"
-                          };
-                          
-                          return (
-                            <div
-                              key={idx}
-                              className={`flex flex-wrap justify-between items-center ${bg} ${text} rounded-xl px-5 py-3 shadow-lg hover:scale-[1.01] transition-transform`}
-                            >
-                              <span className="font-bold text-lg flex items-center gap-2">
-                                <CheckSquare className="w-5 h-5 text-yellow-300" />
+              {/* CONTENIDO (ACTIVIDADES) */}
+              <AnimatePresence>
+                {isOpen && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.4, ease: "easeInOut" }}
+                  >
+                    <div className="px-8 pb-8 space-y-3">
+                      {actividadesDia.length > 0 ? (
+                        actividadesDia.map((act, idx) => (
+                          <motion.div
+                            key={idx}
+                            initial={{ x: -20, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            transition={{ delay: idx * 0.05 }}
+                            className="flex flex-col md:flex-row justify-between items-center bg-white/[0.03] border border-white/5 rounded-2xl p-5 hover:border-red-600/30 transition-all group"
+                          >
+                            <div className="flex items-center gap-4">
+                              <Zap size={16} className="text-red-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                              <span className="font-black text-white uppercase italic tracking-tight text-lg">
                                 {act.actividad}
                               </span>
-                              
-                              <span className={`text-sm font-medium ${accent} px-3 py-1 rounded-full shadow-md flex items-center gap-1`}>
-                                <Clock className="w-4 h-4" />
-                                {act.inicio} - {act.fin}
-                              </span>
+                            </div>
+                            
+                            <div className="flex items-center gap-6 mt-4 md:mt-0">
+                              <div className="flex items-center gap-2 text-gray-400">
+                                <Clock size={16} className="text-amber-400" />
+                                <span className="font-mono font-bold tracking-widest text-sm">
+                                  {act.inicio} — {act.fin}
+                                </span>
+                              </div>
                               
                               <a 
                                 href={`#actividades`} 
-                                className="bg-[var(--c-hover)] text-[var(--c-ink)] px-3 py-1 rounded-lg shadow-xl font-semibold hover:opacity-90 transition mt-2 md:mt-0"
+                                className="bg-white text-black text-[10px] font-black uppercase tracking-widest px-6 py-2 rounded-full hover:bg-red-600 hover:text-white transition-all shadow-lg"
                               >
-                                Reservar
+                                Detalles
                               </a>
                             </div>
-                          );
-                      })
-                    ) : (
-                      <p className="text-gray-500 text-center text-md italic">
-                        No hay actividades programadas para este día.
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
+                          </motion.div>
+                        ))
+                      ) : (
+                        <p className="text-gray-600 text-sm font-bold uppercase tracking-widest py-10">
+                          Sin actividades programadas
+                        </p>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           );
         })}

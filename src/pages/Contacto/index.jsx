@@ -1,149 +1,172 @@
 import { memo, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import * as C from "../../componentes";
+import { Instagram, Send, MapPin, Globe, Zap } from "lucide-react";
 
-// Lazy load del mapa (solo se carga cuando se ve)
 const LazyMapa = lazy(() => import("../../componentes/Mapa"));
 
-// Redes sociales estáticas (rendimiento)
-const SOCIAL_LINKS = Object.freeze([
+const SOCIAL_LINKS = [
   {
     href: "https://wa.me/542996055279",
-    icon: "/iconos/wp.png",
+    icon: <Send size={22} />,
     alt: "WhatsApp",
+    color: "hover:text-green-500",
   },
   {
     href: "https://www.instagram.com/kinesio_nqn/",
-    icon: "/iconos/ig.png",
+    icon: <Instagram size={22} />,
     alt: "Instagram",
+    color: "hover:text-pink-500",
   },
-]);
+];
 
-// Variants globales para animaciones con stagger
 const containerVariants = {
-  hidden: { opacity: 0, scale: 0.94 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    scale: 1,
-    transition: {
-      ease: "easeOut",
-      duration: 0.5,
-      when: "beforeChildren",
-      staggerChildren: 0.15,
-    },
+    transition: { staggerChildren: 0.15 },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 12 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "circOut" },
+  },
 };
 
-// Icono social optimizado
-const SocialLink = memo(function SocialLink({ href, icon, alt }) {
-  return (
-    <motion.a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="bg-[var(--c-primary)] hover:bg-[var(--c-maroon)] rounded-full p-3 shadow-lg"
-      variants={itemVariants}
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.92 }}
-    >
-      <img src={icon} alt={alt} className="w-10 h-10" loading="lazy" />
-    </motion.a>
-  );
-});
+const SocialLink = memo(({ href, icon, alt, color }) => (
+  <motion.a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label={alt}
+    className={`bg-white/5 border border-white/10 p-4 rounded-2xl text-gray-400 transition-all duration-300 ${color} hover:bg-white/10 hover:border-white/20 flex items-center justify-center`}
+    variants={itemVariants}
+    whileHover={{ y: -4, scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+  >
+    {icon}
+  </motion.a>
+));
 
-// Bloque contacto con stagger
-const BloqueContacto = memo(function BloqueContacto() {
-  return (
+const BloqueContacto = memo(() => (
+  <motion.div
+    className="flex-1 p-8 md:p-12 lg:p-16 flex flex-col justify-center space-y-10"
+    variants={itemVariants}
+  >
+    <div className="space-y-4">
+      <div className="flex items-center gap-2">
+        <Zap size={14} className="text-red-600 animate-pulse" />
+        <span className="text-[9px] font-black uppercase tracking-[0.4em] text-gray-500">
+          Enlace Directo
+        </span>
+      </div>
+
+      <h3 className="text-4xl md:text-5xl lg:text-6xl font-black italic uppercase tracking-tighter text-white leading-none">
+        ¿Hablamos <br />
+        <span className="text-red-600">Ahora?</span>
+      </h3>
+    </div>
+
+    <div className="space-y-6">
+      <div className="flex items-center gap-4">
+        <div className="bg-white/5 p-3 rounded-xl">
+          <MapPin size={20} className="text-red-600" />
+        </div>
+        <div>
+          <p className="text-[9px] font-black uppercase tracking-widest text-gray-500">
+            Ubicación
+          </p>
+          <p className="text-white font-bold uppercase italic text-sm md:text-base">
+            Cacique Catriel 434, NQN
+          </p>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-4">
+        <div className="bg-white/5 p-3 rounded-xl">
+          <Globe size={20} className="text-amber-400" />
+        </div>
+        <div>
+          <p className="text-[9px] font-black uppercase tracking-widest text-gray-500">
+            Instagram
+          </p>
+          <p className="text-white font-bold uppercase italic text-sm md:text-base">
+            @kinesio_nqn
+          </p>
+        </div>
+      </div>
+    </div>
+
     <motion.div
-      className="flex-1 p-8 lg:p-12 text-[var(--c-brown)] text-center lg:text-left space-y-6 relative z-10"
-      variants={itemVariants}
+      className="flex gap-4 pt-4"
+      variants={containerVariants}
     >
-      <motion.h3 className="text-3xl font-bold mb-4" variants={itemVariants}>
-        ¡Contáctanos!
-      </motion.h3>
-
-      <motion.div
-        className="flex justify-center lg:justify-start gap-6 mt-4"
-        variants={containerVariants}
-      >
-        {SOCIAL_LINKS.map((item) => (
-          <SocialLink key={item.alt} {...item} />
-        ))}
-      </motion.div>
+      {SOCIAL_LINKS.map((link) => (
+        <SocialLink key={link.alt} {...link} />
+      ))}
     </motion.div>
-  );
-});
+  </motion.div>
+));
 
 export default function Contacto() {
   return (
     <section
       id="contacto"
-      className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[var(--c-brown)] to-[var(--c-ink)] px-4"
+      className="min-h-screen bg-black flex items-center justify-center py-20 px-4 relative overflow-hidden"
     >
-      <div className="flex flex-col items-center max-w-7xl w-full gap-12">
-        <C.TituloSeccion texto="CONTACTANOS" />
+      {/* Glow decorativo */}
+      <div className="absolute top-1/2 left-0 w-72 h-72 bg-red-600/10 rounded-full blur-[120px] -translate-y-1/2 pointer-events-none" />
 
-        {/* CONTENEDOR CON VARIANTS + ANIMACIÓN DE SCROLL */}
+      <div className="max-w-7xl w-full relative z-10 flex flex-col items-center gap-16">
+        <C.TituloSeccion
+          texto="CONTACTO"
+          subtitulo="Comunicaciones Kuroobi"
+        />
+
         <motion.div
-          className="
-            relative flex flex-col lg:flex-row items-stretch w-full max-w-6xl rounded-3xl 
-            overflow-hidden p-[2px] bg-gradient-to-r from-[var(--c-primary)]/50 
-            via-transparent to-[var(--c-maroon)]/50 animate-border-move
-          "
+          className="relative w-full max-w-6xl rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-white/5 bg-[#0a0a0a] shadow-2xl"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.35 }}
-          whileHover={{ rotateX: 2, rotateY: -2, scale: 1.015 }}
-          transition={{ duration: 0.35 }}
+          viewport={{ once: true, amount: 0.2 }}
         >
-          <div
-            className="
-              flex flex-col lg:flex-row w-full rounded-3xl
-              bg-[var(--c-graylite)]/80 backdrop-blur-xl shadow-2xl border border-[var(--c-graydark)]
-              gap-8
-            "
-          >
+          <div className="flex flex-col lg:flex-row min-h-[500px] md:min-h-[600px]">
             <BloqueContacto />
 
-            {/* MAPA LAZY-LOAD + motion */}
-            <motion.div
-              className="flex-1 p-6 lg:p-12"
-              variants={itemVariants}
+            {/* MAPA */}
+            <div
+              className="
+                relative w-full
+                h-[300px] sm:h-[350px] md:h-[450px]
+                lg:flex-1 lg:h-auto lg:min-h-full
+                border-t lg:border-t-0 lg:border-l border-white/5
+                overflow-hidden
+              "
             >
               <Suspense
                 fallback={
-                  <div className="w-full h-64 flex items-center justify-center text-[var(--c-brown)]">
-                    Cargando mapa...
+                  <div className="w-full h-full flex flex-col items-center justify-center bg-black">
+                    <div className="w-10 h-10 border-4 border-red-600 border-t-transparent rounded-full animate-spin" />
+                    <span className="mt-4 text-[9px] font-black uppercase tracking-widest text-gray-500">
+                      Cargando mapa…
+                    </span>
                   </div>
                 }
               >
-                <LazyMapa />
+                <div className="absolute inset-0 opacity-70 hover:opacity-100 transition-opacity duration-700">
+                  <LazyMapa />
+                </div>
               </Suspense>
-            </motion.div>
+
+              <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_60px_rgba(0,0,0,0.9)]" />
+            </div>
           </div>
         </motion.div>
       </div>
-
-      {/* Animación del borde */}
-      <style>
-        {`
-          @keyframes border-move {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-          }
-          .animate-border-move {
-            background-size: 280% 280%;
-            animation: border-move 8s ease infinite;
-          }
-        `}
-      </style>
     </section>
   );
 }

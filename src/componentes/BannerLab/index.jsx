@@ -1,59 +1,85 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Activity } from "lucide-react";
+import { ArrowRight, Activity, Cpu, Zap } from "lucide-react";
 
 const logoLab = "/lab/lab_rojo.png"; 
 
 const BannerLab = () => {
   return (
-    <section className="w-full bg-[var(--c-ink)] py-16 px-4 flex justify-center border-t border-white/5 relative overflow-hidden">
+    <section className="w-full bg-black py-12 md:py-20 px-4 flex justify-center border-t border-white/5 relative overflow-hidden">
       
-      <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5 pointer-events-none"></div>
+      {/* 1. FONDO TECNOLÓGICO: Cuadrícula sutil en lugar de patrón de carbono */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+           style={{ backgroundImage: `radial-gradient(circle, #fff 1px, transparent 1px)`, backgroundSize: '30px 30px' }}>
+      </div>
 
       <Link to="/kuroobi-lab" className="w-full max-w-6xl group relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0f0f0f] via-[#1a1a1a] to-[#0a0a0a] border border-white/10 p-8 md:p-12 flex flex-col md:flex-row items-center gap-10 shadow-2xl group-hover:border-amber-400/30 group-hover:shadow-[0_0_40px_rgba(251,191,36,0.15)] transition-all duration-500"
+          transition={{ duration: 0.8 }}
+          className="relative overflow-hidden rounded-[2.5rem] bg-[#080808] border border-white/5 p-8 md:p-14 flex flex-col md:flex-row items-center gap-10 shadow-2xl transition-all duration-500"
         >
           
-          <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500 rounded-full blur-[120px] opacity-5 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none"></div>
+          {/* 2. EFECTOS DE LUZ (Glows) */}
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-red-600/10 rounded-full blur-[120px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-400/5 rounded-full blur-[80px] pointer-events-none"></div>
 
-          <div className="relative z-10 flex-shrink-0 p-6 rounded-full bg-white/5 border border-white/10 group-hover:scale-105 transition-transform duration-500">
-            <img 
-              src={logoLab} 
-              alt="Logo Kuroobi Lab" 
-              className="w-28 h-28 md:w-40 md:h-40 object-contain drop-shadow-xl"
-            />
-          </div>
-
-          <div className="flex-1 text-center md:text-left z-10 space-y-4">
-            
-            {/* CORRECCIÓN AQUÍ: Usamos &quot; en lugar de comillas normales */}
-            <h2 className="text-xl md:text-2xl font-light tracking-[0.2em] text-gray-300 uppercase border-b border-white/10 pb-4 mb-4 inline-block md:block">
-              &quot;Todo lo que se puede medir, <span className="text-white font-bold">se puede mejorar</span>&quot;
-            </h2>
-
-            <h3 className="text-4xl md:text-6xl font-black text-white tracking-tighter">
-              KURO<span className="text-red-600">OBI</span> <span className="text-amber-400">LAB</span>
-            </h3>
-            
-            <p className="text-gray-400 font-light max-w-xl mx-auto md:mx-0 leading-relaxed">
-              Plataforma de inteligencia integral. 
-              Bio-Ingeniería aplicada al deportista neuquino.
-            </p>
-            
-            <div className="pt-4 flex justify-center md:justify-start">
-                <span className="inline-flex items-center gap-3 text-amber-400 text-sm font-bold uppercase tracking-widest bg-amber-400/10 px-6 py-3 rounded-full border border-amber-400/20 group-hover:bg-amber-400 group-hover:text-black transition-all duration-300">
-                  Ingresar al Lab <ArrowRight className="w-4 h-4" />
-                </span>
+          {/* 3. CONTENEDOR LOGO: Estilo "Core de IA" */}
+          <div className="relative z-10 flex-shrink-0">
+            <div className="relative p-8 rounded-full bg-black border border-white/10 group-hover:border-red-600/50 transition-all duration-700 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]">
+                {/* Scanner animation circular */}
+                <motion.div 
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
+                  className="absolute inset-2 border-t-2 border-red-600/40 rounded-full"
+                />
+                <img 
+                  src={logoLab} 
+                  alt="Logo Kuroobi Lab" 
+                  className="w-24 h-24 md:w-44 md:h-44 object-contain relative z-10 group-hover:scale-110 transition-transform duration-700"
+                />
             </div>
           </div>
 
-          <Activity className="absolute -bottom-8 -right-8 text-white/5 w-64 h-64 -rotate-12 pointer-events-none" />
+          {/* 4. CONTENIDO TEXTUAL */}
+          <div className="flex-1 text-center md:text-left z-10">
+            
+            <div className="flex items-center justify-center md:justify-start gap-3 mb-6">
+               <Cpu size={14} className="text-amber-400" />
+               <span className="text-[10px] font-mono font-black uppercase tracking-[0.4em] text-amber-400/80">
+                  Biological Intelligence System
+               </span>
+            </div>
+
+            <h2 className="text-lg md:text-xl font-mono tracking-tight text-gray-400 mb-4 italic">
+              &quot;Todo lo que se puede medir, <span className="text-white font-bold underline decoration-red-600 underline-offset-4">se puede mejorar</span>&quot;
+            </h2>
+
+            <h3 className="text-5xl md:text-7xl font-black text-white tracking-tighter mb-6 leading-none">
+              KURO<span className="text-red-600">OBI</span><br className="md:hidden" />
+              <span className="text-amber-400"> LAB</span>
+            </h3>
+            
+            <p className="text-gray-500 text-sm md:text-base font-medium max-w-xl mx-auto md:mx-0 leading-relaxed uppercase tracking-wide">
+              Bio-Ingeniería aplicada al deportista. <br />
+              Análisis biomecánico y fisiológico de alta precisión.
+            </p>
+            
+            <div className="pt-8 flex justify-center md:justify-start">
+                <button className="relative overflow-hidden group/btn px-10 py-4 rounded-full bg-white text-black font-black uppercase text-xs tracking-[0.2em] transition-all hover:pr-14">
+                  <span className="relative z-10 flex items-center gap-2">
+                    Conoce mas de KUROOBI LAB <ArrowRight className="w-4 h-4" />
+                  </span>
+                  <div className="absolute inset-0 bg-amber-400 translate-x-[-100%] group-hover/btn:translate-x-0 transition-transform duration-500"></div>
+                </button>
+            </div>
+          </div>
+
+          {/* 5. ELEMENTO DECORATIVO: ECG Line */}
+          <Activity className="absolute -bottom-10 -right-10 text-red-600/10 w-80 h-80 -rotate-12 pointer-events-none group-hover:text-red-600/20 transition-colors" />
 
         </motion.div>
       </Link>
