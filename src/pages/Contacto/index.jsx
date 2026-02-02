@@ -95,7 +95,7 @@ const BloqueContacto = memo(() => (
             Instagram
           </p>
           <p className="text-white font-bold uppercase italic text-sm md:text-base">
-            @kinesio_nqn
+            @kuroobi_nqn
           </p>
         </div>
       </div>

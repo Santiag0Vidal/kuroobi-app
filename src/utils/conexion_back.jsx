@@ -1,13 +1,14 @@
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { LogIn } from "lucide-react";
 
 export default function ConectarButton() {
-  const nav = useNavigate();
+  const handleRedirect = () => {
+   window.open("http://kuroobineuquen.net/", "_blank", "noopener,noreferrer");
+  };
 
   return (
     <motion.button
-      onClick={() => nav("/kuroo-app")}
+      onClick={handleRedirect}
       whileHover={{ scale: 1.04 }}
       whileTap={{ scale: 0.96 }}
       className="
