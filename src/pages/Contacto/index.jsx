@@ -13,7 +13,7 @@ const SOCIAL_LINKS = [
     color: "hover:text-green-500",
   },
   {
-    href: "https://www.instagram.com/kinesio_nqn/",
+    href: "https://www.instagram.com/kuroobi_nqn/",
     icon: <Instagram size={22} />,
     alt: "Instagram",
     color: "hover:text-pink-500",
