@@ -20,6 +20,7 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
   const [descripcionActi, setDescripcionActi] = useState("");
   const [imagenModal, setImagenModal] = useState("");
 
+  // Carga de datos de la actividad
   useEffect(() => {
     const act = actividades.find(
       (a) => a.nombre.toLowerCase() === descripcion.toLowerCase()
@@ -31,6 +32,16 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
     }
   }, [descripcion]);
 
+  // Bloquear scroll del body cuando algún modal esté abierto
+  useEffect(() => {
+    if (showDescripcion || openFormulario) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [showDescripcion, openFormulario]);
+
+  // Cerrar con Escape
   useEffect(() => {
     const handleKey = (e) => {
       if (e.key === "Escape") {
@@ -93,7 +104,8 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
       <AnimatePresence>
         {showDescripcion && (
           <motion.div
-            className="fixed inset-0 bg-black/95 z-[110] flex items-center justify-center p-4 backdrop-blur-xl"
+            /* CAMBIO: z-[150] para estar por encima del Navbar (120) */
+            className="fixed inset-0 bg-black/95 z-[150] flex items-center justify-center p-4 backdrop-blur-xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -104,17 +116,20 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
               exit={{ scale: 0.95, y: 40, opacity: 0 }}
               className="relative w-full max-w-5xl max-h-[90vh] bg-[#0a0a0a] border border-white/10 rounded-[2rem] overflow-hidden flex flex-col"
             >
-              {/* CERRAR */}
+              {/* BOTÓN CERRAR: Mejorado para accesibilidad móvil */}
               <button
-                onClick={() => setShowDescripcion(false)}
-                className="absolute top-4 right-4 z-30 bg-black/60 p-2 rounded-full text-gray-400 hover:text-white"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowDescripcion(false);
+                }}
+                className="absolute top-6 right-6 z-[160] bg-black/80 p-3 rounded-full text-white/70 hover:text-white border border-white/20 transition-colors shadow-xl"
               >
-                <X size={20} />
+                <X size={24} />
               </button>
 
               <div className="flex flex-col md:grid md:grid-cols-2 h-full overflow-hidden">
-                {/* IMAGEN */}
-                <div className="relative h-56 md:h-full">
+                {/* IMAGEN SECCIÓN */}
+                <div className="relative h-48 sm:h-56 md:h-full">
                   <img
                     src={imagenModal || imagen}
                     alt={titulo}
@@ -135,8 +150,8 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
                   </div>
                 </div>
 
-                {/* INFO */}
-                <div className="flex-1 overflow-y-auto p-6 md:p-10 space-y-8">
+                {/* INFO SECCIÓN */}
+                <div className="flex-1 overflow-y-auto p-6 md:p-10 space-y-8 scrollbar-hide">
                   <div>
                     <h3 className="text-amber-400 text-[10px] font-black uppercase tracking-[0.4em] mb-3">
                       Sobre la actividad
@@ -158,12 +173,8 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
                           <UserPlus size={16} />
                         </div>
                         <div>
-                          <p className="text-xs text-white font-bold">
-                            1. Regístrate
-                          </p>
-                          <p className="text-[10px] text-gray-500">
-                            Crea tu cuenta oficial de Kuroobi.
-                          </p>
+                          <p className="text-xs text-white font-bold">1. Regístrate</p>
+                          <p className="text-[10px] text-gray-500">Crea tu cuenta oficial de Kuroobi.</p>
                         </div>
                       </div>
 
@@ -172,12 +183,8 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
                           <CalendarCheck size={16} />
                         </div>
                         <div>
-                          <p className="text-xs text-white font-bold">
-                            2. Elegí tu plan
-                          </p>
-                          <p className="text-[10px] text-gray-500">
-                            Seleccioná horarios y modalidad.
-                          </p>
+                          <p className="text-xs text-white font-bold">2. Elegí tu plan</p>
+                          <p className="text-[10px] text-gray-500">Seleccioná horarios y modalidad.</p>
                         </div>
                       </div>
                     </div>
@@ -187,7 +194,7 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
                     <p className="text-[10px] text-center text-gray-500 uppercase tracking-widest mb-4 animate-pulse">
                       Registro seguro
                     </p>
-                    <div className="flex justify-center">
+                    <div className="flex justify-center pb-6">
                       <ConectarButton />
                     </div>
                   </div>
@@ -202,7 +209,8 @@ const CardActividades = ({ titulo, descripcion, imagen }) => {
       <AnimatePresence>
         {openFormulario && (
           <motion.div
-            className="fixed inset-0 bg-black/95 z-[120] flex items-center justify-center p-4 backdrop-blur-2xl"
+            /* CAMBIO: z-[160] para estar por encima del detalle y del navbar */
+            className="fixed inset-0 bg-black/95 z-[160] flex items-center justify-center p-4 backdrop-blur-2xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -232,4 +240,4 @@ CardActividades.propTypes = {
   imagen: PropTypes.string.isRequired,
 };
 
-export default CardActividades;
+export default CardActividades; 

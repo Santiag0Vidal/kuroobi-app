@@ -98,59 +98,65 @@ function Navbar() {
         </div>
       </nav>
 
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ type: "spring", damping: 30, stiffness: 200 }}
-            /* CAMBIO CLAVE: Cambiamos justify-center por items-center con padding y overflow */
-            className="fixed inset-0 h-screen w-full bg-black/98 backdrop-blur-3xl lg:hidden z-[110] flex flex-col overflow-y-auto"
+<AnimatePresence>
+  {isOpen && (
+    <motion.div
+      initial={{ opacity: 0, x: "100%" }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: "100%" }}
+      transition={{ type: "spring", damping: 30, stiffness: 200 }}
+      // Cambios: Quitamos justify-center y usamos overflow-y-auto
+      className="fixed inset-0 h-screen w-full bg-black/98 backdrop-blur-3xl lg:hidden z-[110] flex flex-col overflow-y-auto"
+    >
+      {/* Fondo decorativo */}
+      <div className="absolute inset-0 overflow-hidden opacity-20 pointer-events-none">
+          <div className="absolute top-1/4 -right-20 w-96 h-96 bg-red-600/20 rounded-full blur-[120px]" />
+      </div>
+
+      {/* CONTENEDOR DE LINKS 
+          - py-32: Da espacio suficiente arriba (para el logo/X) y abajo.
+          - gap-8: Un poco más compacto que gap-10 para asegurar visibilidad.
+      */}
+      <ul className="flex flex-col items-center gap-8 relative z-10 py-32 min-h-max">
+        {navLinks.map((link, i) => (
+          <motion.li
+            key={link.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 + i * 0.1 }}
           >
-            <div className="absolute inset-0 overflow-hidden opacity-20 pointer-events-none">
-                <div className="absolute top-1/4 -right-20 w-96 h-96 bg-red-600/20 rounded-full blur-[120px]" />
-            </div>
+            <button
+              onClick={() => handleNavClick(link)}
+              // Bajamos a text-3xl para que en pantallas angostas no rompa línea
+              className="text-3xl font-black uppercase italic tracking-tighter text-white hover:text-red-600 transition-colors"
+            >
+              {link.label}
+            </button>
+          </motion.li>
+        ))}
 
-            {/* Contenedor de links con padding superior para no chocar con el Logo/X */}
-            <ul className="flex flex-col items-center gap-6 sm:gap-10 relative z-10 py-24 min-h-full justify-center">
-              {navLinks.map((link, i) => (
-                <motion.li
-                  key={link.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + i * 0.1 }}
-                >
-                  <button
-                    onClick={() => handleNavClick(link)}
-                    className="text-3xl sm:text-4xl font-black uppercase italic tracking-tighter text-white hover:text-red-600 transition-colors"
-                  >
-                    {link.label}
-                  </button>
-                </motion.li>
-              ))}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className="mt-4 scale-110"
+          onClick={() => setIsOpen(false)}
+        >
+          <ConectarButton />
+        </motion.div>
+        
+        {/* Espacio final para que el scroll permita ver todo cómodamente */}
+        <div className="h-20" /> 
+      </ul>
 
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="mt-4 sm:mt-6 scale-110 sm:scale-125"
-                onClick={() => setIsOpen(false)}
-              >
-                <ConectarButton />
-              </motion.div>
-              
-              {/* Espacio extra abajo para que el logo de KUROOBI no tape el botón en pantallas muy bajas */}
-              <div className="h-20" /> 
-            </ul>
-
-            <div className="absolute bottom-6 w-full flex flex-col items-center gap-2 opacity-30 pointer-events-none">
-              <Cpu size={16} className="text-red-600" />
-              <span className="text-[8px] font-mono tracking-[0.5em] text-white uppercase">Kuroobi System</span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Footer del menú - Lo hacemos relativo o con padding para que no tape nada */}
+      <div className="mt-auto pb-10 flex flex-col items-center gap-2 opacity-30">
+        <Cpu size={16} className="text-red-600" />
+        <span className="text-[8px] font-mono tracking-[0.5em] text-white">KUROOBI SYSTEM</span>
+      </div>
+    </motion.div>
+  )}
+</AnimatePresence>
     </>
   );
 }
