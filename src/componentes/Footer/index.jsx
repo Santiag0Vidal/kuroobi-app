@@ -92,6 +92,7 @@ export default function Footer() {
               <div>
                 <p className="text-white font-medium">Horarios de Atención</p>
                 <p className="text-xs text-gray-400">Lun - Vie: 07:00 - 22:00</p>
+                <p className="text-xs text-gray-400">Sab: 09:00 - 13:00</p>
               </div>
             </div>
 
