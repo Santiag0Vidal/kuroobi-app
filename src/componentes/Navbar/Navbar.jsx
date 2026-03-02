@@ -12,7 +12,6 @@ function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // 1. Bloquear scroll del body cuando el menú está abierto
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -21,7 +20,6 @@ function Navbar() {
     }
   }, [isOpen]);
 
-  // 2. Scroll detector
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
@@ -42,7 +40,7 @@ function Navbar() {
     } else {
       if (location.pathname !== "/") {
         navigate("/");
-        setTimeout(() => handleScrollTo(link.id), 300); // Un poco más de tiempo para el render
+        setTimeout(() => handleScrollTo(link.id), 300);
       } else {
         handleScrollTo(link.id);
       }
@@ -59,13 +57,10 @@ function Navbar() {
         }`}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 lg:px-12">
-          
-          {/* LOGO */}
           <Link to="/" onClick={() => setIsOpen(false)} className="relative z-[130] block group">
             <C.Logo className="w-12 md:w-20 transition-all duration-500 group-hover:scale-105" />
           </Link>
 
-          {/* BOTÓN HAMBURGUESA - Elevamos el z-index para que esté sobre el overlay */}
           <button
             className="lg:hidden relative z-[130] p-2 text-white outline-none"
             onClick={() => setIsOpen(!isOpen)}
@@ -84,7 +79,6 @@ function Navbar() {
             </AnimatePresence>
           </button>
 
-          {/* LINKS DESKTOP */}
           <ul className="hidden lg:flex items-center gap-1">
             {navLinks.map((link, index) => (
               <motion.li key={link.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: index * 0.1 }}>
@@ -104,7 +98,6 @@ function Navbar() {
         </div>
       </nav>
 
-      {/* MENÚ MOBILE OVERLAY */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -112,24 +105,25 @@ function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 200 }}
-            className="fixed inset-0 h-screen w-full bg-black/98 backdrop-blur-3xl lg:hidden flex flex-col items-center justify-center z-[110]"
+            /* CAMBIO CLAVE: Cambiamos justify-center por items-center con padding y overflow */
+            className="fixed inset-0 h-screen w-full bg-black/98 backdrop-blur-3xl lg:hidden z-[110] flex flex-col overflow-y-auto"
           >
-            {/* Fondo decorativo interno */}
             <div className="absolute inset-0 overflow-hidden opacity-20 pointer-events-none">
                 <div className="absolute top-1/4 -right-20 w-96 h-96 bg-red-600/20 rounded-full blur-[120px]" />
             </div>
 
-            <ul className="flex flex-col items-center gap-10 relative z-10">
+            {/* Contenedor de links con padding superior para no chocar con el Logo/X */}
+            <ul className="flex flex-col items-center gap-6 sm:gap-10 relative z-10 py-24 min-h-full justify-center">
               {navLinks.map((link, i) => (
                 <motion.li
                   key={link.id}
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 + i * 0.1 }}
+                  transition={{ delay: 0.1 + i * 0.1 }}
                 >
                   <button
                     onClick={() => handleNavClick(link)}
-                    className="text-4xl font-black uppercase italic tracking-tighter text-white hover:text-red-600 transition-colors"
+                    className="text-3xl sm:text-4xl font-black uppercase italic tracking-tighter text-white hover:text-red-600 transition-colors"
                   >
                     {link.label}
                   </button>
@@ -139,16 +133,20 @@ function Navbar() {
               <motion.div 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="mt-6 scale-125"
+                transition={{ delay: 0.4 }}
+                className="mt-4 sm:mt-6 scale-110 sm:scale-125"
+                onClick={() => setIsOpen(false)}
               >
                 <ConectarButton />
               </motion.div>
+              
+              {/* Espacio extra abajo para que el logo de KUROOBI no tape el botón en pantallas muy bajas */}
+              <div className="h-20" /> 
             </ul>
 
-            <div className="absolute bottom-12 flex flex-col items-center gap-2 opacity-30">
+            <div className="absolute bottom-6 w-full flex flex-col items-center gap-2 opacity-30 pointer-events-none">
               <Cpu size={16} className="text-red-600" />
-              <span className="text-[8px] font-mono tracking-[0.5em] text-white">KUROOBI SYSTEM</span>
+              <span className="text-[8px] font-mono tracking-[0.5em] text-white uppercase">Kuroobi System</span>
             </div>
           </motion.div>
         )}
