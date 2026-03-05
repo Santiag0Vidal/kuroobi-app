@@ -1,3 +1,4 @@
+import { useEffect } from "react"; // 1. Importamos useEffect
 import * as C from "../../componentes";
 import Hero from "./Hero";
 import Identidad from "./Identidad";
@@ -9,6 +10,11 @@ import Tecnologia from "./Tecnologia";
 import Contacto from "./Contacto";
 
 function App() {
+  // 2. Efecto para resetear el scroll al inicio
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []); // El array vacío asegura que solo se ejecute al montar la página
+
   return (
     <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-red-600 selection:text-white">
       <main>
